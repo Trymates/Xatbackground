@@ -1,0 +1,677 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Latest xat Power</title>
+        <style>
+            :root {
+                --bg-top: #03003f;
+                --bg-bottom: #06178f;
+                --panel-border: rgba(255, 255, 255, 0.14);
+                --text: #eef3ff;
+                --muted: #bfd0ff;
+                --success: #c6ffe0;
+            }
+
+            * {
+                box-sizing: border-box;
+            }
+
+            html,
+            body {
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                overflow: hidden;
+                font-family: Inter, Arial, Helvetica, sans-serif;
+                background:
+                    radial-gradient(
+                        circle at 75% 30%,
+                        rgba(49, 70, 185, 0.15),
+                        transparent 25%
+                    ),
+                    linear-gradient(
+                        180deg,
+                        var(--bg-top) 0%,
+                        #01005c 45%,
+                        var(--bg-bottom) 100%
+                    );
+                color: var(--text);
+            }
+
+            body::before {
+                content: "";
+                position: fixed;
+                inset: 0;
+                background:
+                    radial-gradient(
+                        circle at 12% 18%,
+                        rgba(255, 255, 255, 0.95) 0 1.4px,
+                        transparent 1.7px
+                    ),
+                    radial-gradient(
+                        circle at 6% 31%,
+                        rgba(255, 255, 255, 0.92) 0 1.6px,
+                        transparent 1.9px
+                    ),
+                    radial-gradient(
+                        circle at 14% 49%,
+                        rgba(255, 255, 255, 0.75) 0 1.2px,
+                        transparent 1.5px
+                    ),
+                    radial-gradient(
+                        circle at 18% 9%,
+                        rgba(255, 255, 255, 0.7) 0 1px,
+                        transparent 1.3px
+                    ),
+                    radial-gradient(
+                        circle at 23% 26%,
+                        rgba(255, 255, 255, 0.9) 0 1.4px,
+                        transparent 1.7px
+                    ),
+                    radial-gradient(
+                        circle at 29% 63%,
+                        rgba(255, 255, 255, 0.95) 0 1.5px,
+                        transparent 1.8px
+                    ),
+                    radial-gradient(
+                        circle at 33% 18%,
+                        rgba(255, 255, 255, 0.95) 0 2px,
+                        transparent 2.5px
+                    ),
+                    radial-gradient(
+                        circle at 40% 8%,
+                        rgba(255, 255, 255, 0.72) 0 1.3px,
+                        transparent 1.6px
+                    ),
+                    radial-gradient(
+                        circle at 49% 29%,
+                        rgba(255, 255, 255, 0.55) 0 1px,
+                        transparent 1.3px
+                    ),
+                    radial-gradient(
+                        circle at 53% 19%,
+                        rgba(255, 255, 255, 0.9) 0 1.4px,
+                        transparent 1.8px
+                    ),
+                    radial-gradient(
+                        circle at 64% 15%,
+                        rgba(255, 255, 255, 0.6) 0 1.1px,
+                        transparent 1.5px
+                    ),
+                    radial-gradient(
+                        circle at 71% 27%,
+                        rgba(255, 255, 255, 0.9) 0 1.3px,
+                        transparent 1.7px
+                    ),
+                    radial-gradient(
+                        circle at 78% 6%,
+                        rgba(255, 255, 255, 0.55) 0 1px,
+                        transparent 1.4px
+                    ),
+                    radial-gradient(
+                        circle at 86% 14%,
+                        rgba(255, 255, 255, 0.92) 0 1.2px,
+                        transparent 1.6px
+                    ),
+                    radial-gradient(
+                        circle at 93% 13%,
+                        rgba(255, 255, 255, 0.55) 0 1px,
+                        transparent 1.4px
+                    ),
+                    radial-gradient(
+                        circle at 4% 7%,
+                        rgba(255, 255, 255, 0.95) 0 1.8px,
+                        transparent 2.2px
+                    ),
+                    radial-gradient(
+                        circle at 3% 45%,
+                        rgba(255, 255, 255, 0.55) 0 1px,
+                        transparent 1.3px
+                    );
+                pointer-events: none;
+            }
+
+            .shooting-star {
+                position: absolute;
+                height: 3px;
+                border-radius: 999px;
+                background: linear-gradient(
+                    90deg,
+                    rgba(255, 255, 255, 0),
+                    rgba(222, 201, 255, 0.85),
+                    rgba(255, 255, 255, 0)
+                );
+                filter: blur(0.35px);
+                opacity: 0.65;
+                transform: rotate(-22deg);
+                box-shadow: 0 0 10px rgba(236, 223, 255, 0.4);
+                animation: drift 9s linear infinite;
+            }
+
+            .shooting-star.s1 {
+                width: 95px;
+                top: 18%;
+                left: 8%;
+                animation-delay: -1s;
+            }
+            .shooting-star.s2 {
+                width: 90px;
+                top: 14%;
+                left: 33%;
+                animation-delay: -4s;
+            }
+            .shooting-star.s3 {
+                width: 118px;
+                top: 13%;
+                left: 64%;
+                animation-delay: -2s;
+            }
+            .shooting-star.s4 {
+                width: 130px;
+                top: 74%;
+                left: 5%;
+                animation-delay: -6s;
+            }
+
+            @keyframes drift {
+                0%,
+                100% {
+                    transform: translate3d(0, 0, 0) rotate(-22deg);
+                    opacity: 0.18;
+                }
+                50% {
+                    transform: translate3d(18px, 8px, 0) rotate(-22deg);
+                    opacity: 0.82;
+                }
+            }
+
+            .stage {
+                position: relative;
+                width: 100%;
+                height: 100%;
+                display: flex;
+                align-items: center;
+                justify-content: flex-end;
+                padding: 48px 88px;
+            }
+
+            .power-card {
+                width: min(360px, 31vw);
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 12px;
+                position: relative;
+                z-index: 2;
+                transform: translateY(-4px);
+            }
+
+            .id-badge {
+                position: absolute;
+                top: 10px;
+                right: 18px;
+                background: linear-gradient(180deg, #12388d, #0a205f);
+                color: #ffd64b;
+                border: 3px solid #ffcf4d;
+                border-radius: 10px;
+                padding: 4px 10px;
+                font-weight: 800;
+                font-style: italic;
+                font-size: 14px;
+                letter-spacing: 0.4px;
+                box-shadow: 0 8px 20px rgba(0, 0, 0, 0.28);
+                text-shadow: 0 1px 1px rgba(0, 0, 0, 0.35);
+            }
+
+            .power-figure {
+                position: relative;
+                width: 180px;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                margin-top: 8px;
+            }
+
+            .power-image {
+                width: 140px;
+                height: 140px;
+                object-fit: contain;
+                image-rendering: auto;
+                filter: drop-shadow(0 12px 18px rgba(0, 0, 0, 0.35));
+                z-index: 2;
+                position: relative;
+            }
+
+            .pedestal {
+                margin-top: -10px;
+                width: 190px;
+                height: 44px;
+                border-radius: 50%;
+                background:
+                    radial-gradient(
+                        circle at 50% 12%,
+                        rgba(255, 255, 255, 0.18),
+                        transparent 40%
+                    ),
+                    linear-gradient(
+                        180deg,
+                        #0d1b3d 0%,
+                        #0e1119 32%,
+                        #1a2845 33%,
+                        #0a0d14 60%,
+                        #111826 100%
+                    );
+                box-shadow:
+                    inset 0 3px 10px rgba(255, 255, 255, 0.08),
+                    inset 0 -3px 10px rgba(0, 0, 0, 0.55),
+                    0 12px 25px rgba(0, 0, 0, 0.3);
+                position: relative;
+            }
+
+            .pedestal::before,
+            .pedestal::after {
+                content: "";
+                position: absolute;
+                left: 10px;
+                right: 10px;
+                height: 4px;
+                border-radius: 999px;
+                background: linear-gradient(
+                    90deg,
+                    rgba(255, 159, 36, 0.2),
+                    rgba(255, 187, 77, 0.95),
+                    rgba(255, 159, 36, 0.2)
+                );
+                box-shadow: 0 0 9px rgba(255, 178, 50, 0.55);
+            }
+
+            .pedestal::before {
+                top: 8px;
+            }
+            .pedestal::after {
+                bottom: 8px;
+            }
+
+            .power-subtitle {
+                margin-top: 4px;
+                font-size: 12px;
+                letter-spacing: 3px;
+                text-transform: lowercase;
+                color: rgba(240, 245, 255, 0.92);
+                text-shadow: 0 0 10px rgba(212, 228, 255, 0.75);
+                font-weight: 700;
+            }
+
+            .power-name {
+                margin: 0;
+                font-size: clamp(48px, 5vw, 74px);
+                line-height: 0.9;
+                font-weight: 700;
+                letter-spacing: -2px;
+                color: #eff5ff;
+                text-shadow:
+                    0 0 10px rgba(232, 243, 255, 0.9),
+                    0 0 24px rgba(187, 218, 255, 0.62),
+                    0 0 36px rgba(144, 188, 255, 0.25);
+                filter: saturate(1.05);
+            }
+
+            .meta-list {
+                width: 252px;
+                display: flex;
+                flex-direction: column;
+                gap: 8px;
+                margin-top: 4px;
+            }
+
+            .meta-row {
+                min-height: 34px;
+                display: grid;
+                grid-template-columns: 26px 1fr auto;
+                align-items: center;
+                gap: 8px;
+                padding: 0 12px 0 8px;
+                border-radius: 7px;
+                background: linear-gradient(
+                    180deg,
+                    rgba(129, 160, 255, 0.28),
+                    rgba(84, 111, 205, 0.22)
+                );
+                border: 1px solid rgba(226, 237, 255, 0.12);
+                box-shadow:
+                    inset 0 1px 0 rgba(255, 255, 255, 0.1),
+                    0 8px 14px rgba(3, 8, 33, 0.22);
+                backdrop-filter: blur(4px);
+            }
+
+            .meta-icon {
+                width: 22px;
+                height: 22px;
+                object-fit: contain;
+                display: block;
+                filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+            }
+
+            .meta-label {
+                font-size: 15px;
+                color: #d4defd;
+                text-transform: lowercase;
+            }
+
+            .meta-value {
+                font-weight: 800;
+                font-size: 14px;
+                color: #f0f6ff;
+                text-transform: lowercase;
+            }
+
+            .limited {
+                color: var(--success);
+                letter-spacing: 0.6px;
+            }
+
+            .subtle {
+                margin-top: 10px;
+                max-width: 310px;
+                text-align: center;
+                color: rgba(226, 235, 255, 0.84);
+                font-size: 13px;
+                line-height: 1.4;
+                text-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
+            }
+
+            .loading,
+            .error {
+                width: min(520px, calc(100vw - 48px));
+                padding: 22px 24px;
+                border-radius: 18px;
+                border: 1px solid var(--panel-border);
+                background: linear-gradient(
+                    180deg,
+                    rgba(255, 255, 255, 0.07),
+                    rgba(255, 255, 255, 0.03)
+                );
+                box-shadow: 0 20px 40px rgba(0, 0, 0, 0.22);
+                backdrop-filter: blur(10px);
+                text-align: center;
+            }
+
+            .loading h2,
+            .error h2 {
+                margin: 0 0 10px;
+                font-size: 28px;
+            }
+
+            .loading p,
+            .error p {
+                margin: 0;
+                color: var(--muted);
+            }
+
+            .corner-glow {
+                position: absolute;
+                right: 0;
+                bottom: 0;
+                width: 560px;
+                height: 560px;
+                background: radial-gradient(
+                    circle at 70% 40%,
+                    rgba(116, 156, 255, 0.1),
+                    transparent 40%
+                );
+                pointer-events: none;
+            }
+
+            @media (max-width: 900px) {
+                .stage {
+                    justify-content: center;
+                    padding: 22px;
+                }
+
+                .power-card {
+                    width: min(350px, 100%);
+                }
+
+                .power-name {
+                    font-size: 58px;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="shooting-star s1"></div>
+        <div class="shooting-star s2"></div>
+        <div class="shooting-star s3"></div>
+        <div class="shooting-star s4"></div>
+        <div class="corner-glow"></div>
+
+        <main class="stage">
+            <div id="app" class="loading">
+                <h2>Loading latest power...</h2>
+                <p>Pulling the newest released power from the API.</p>
+            </div>
+        </main>
+
+        <script>
+            const API_URL =
+                "https://tradexat.com/modcp/api.php?action=powers&released=1&desc=1";
+
+            const I18N = {
+                en: {
+                    lang: "en",
+                    pageTitle: "Latest xat Power",
+                    loadingTitle: "Loading latest power...",
+                    loadingText: "Pulling the newest released power from the API.",
+                    subtitle: "new power",
+                    price: "price",
+                    status: "status",
+                    category: "category",
+                    limited: "limited",
+                    available: "available",
+                    smiley: "smiley",
+                    game: "game",
+                    group: "group",
+                    hug: "hug",
+                    loadErrorTitle: "Could not load the power",
+                    loadErrorSuffix:
+                        "If the API blocks browser requests, use a small PHP or Node proxy on your server.",
+                },
+                es: {
+                    lang: "es",
+                    pageTitle: "Último poder de xat",
+                    loadingTitle: "Cargando el último power...",
+                    loadingText: "Obteniendo el power más nuevo publicado desde la API.",
+                    subtitle: "nuevo power",
+                    price: "precio",
+                    status: "estado",
+                    category: "categoría",
+                    limited: "limitado",
+                    available: "disponible",
+                    smiley: "smiley",
+                    game: "juego",
+                    group: "grupo",
+                    hug: "abrazo",
+                    loadErrorTitle: "No se pudo cargar el power",
+                    loadErrorSuffix:
+                        "Si la API bloquea solicitudes del navegador, usa un pequeño proxy en PHP o Node en tu servidor.",
+                },
+                pr: {
+                    lang: "pt",
+                    pageTitle: "Último poder do xat",
+                    loadingTitle: "Carregando o último power...",
+                    loadingText: "Buscando o power lançado mais recente pela API.",
+                    subtitle: "novo power",
+                    price: "valor",
+                    status: "status",
+                    category: "categoria",
+                    limited: "limitado",
+                    available: "disponível",
+                    smiley: "smiley",
+                    game: "jogo",
+                    group: "grupo",
+                    hug: "abraço",
+                    loadErrorTitle: "Não foi possível carregar o power",
+                    loadErrorSuffix:
+                        "Se a API bloquear requisições do navegador, use um pequeno proxy em PHP ou Node no seu servidor.",
+                },
+            };
+
+            const ICONS = {
+                price: "https://xat.com/content/web/R00237/box/www/svg/actBuyXats.svg",
+                status: "https://xat.com/content/web/R00237//img/navbar/group.svg",
+                category: "https://gs.xat.com/a_(dmd)_80",
+            };
+
+            function getLangFromUrl() {
+                const raw = window.location.search.replace("?", "").trim().toLowerCase();
+                if (raw === "es") return "es";
+                if (raw === "pr" || raw === "pt") return "pr";
+                return "en";
+            }
+
+            const LANG = getLangFromUrl();
+            const T = I18N[LANG];
+            document.documentElement.lang = T.lang;
+            document.title = T.pageTitle;
+
+            function escapeHtml(value) {
+                return String(value ?? "")
+                    .replace(/&/g, "&amp;")
+                    .replace(/</g, "&lt;")
+                    .replace(/>/g, "&gt;")
+                    .replace(/\"/g, "&quot;")
+                    .replace(/'/g, "&#39;");
+            }
+
+            function getCategory(power) {
+                if (power.is_game) return T.game;
+                if (power.is_group) return T.group;
+                if (power.is_hug) return T.hug;
+                return T.smiley;
+            }
+
+            function getStatus(power) {
+                return Number(power.limited) === 1 ? T.limited : T.available;
+            }
+
+            function getStoreValue(power) {
+                return power.store || "N/A";
+            }
+
+            function getImage(power) {
+                return `https://gs.xat.com/a_(${encodeURIComponent(power.name)})_80`;
+            }
+
+            function getHighestPowerEntry(powers) {
+                const ids = Object.keys(powers || {})
+                    .map(Number)
+                    .filter(Number.isFinite)
+                    .sort((a, b) => b - a);
+
+                if (!ids.length) return null;
+                const id = ids[0];
+                return { id, power: powers[id] || powers[String(id)] };
+            }
+
+            function renderLoading() {
+                const app = document.getElementById("app");
+                app.className = "loading";
+                app.innerHTML = `
+                    <h2>${escapeHtml(T.loadingTitle)}</h2>
+                    <p>${escapeHtml(T.loadingText)}</p>
+                `;
+            }
+
+            function renderPower(id, power) {
+                const app = document.getElementById("app");
+                const image = getImage(power);
+                const status = getStatus(power);
+                const category = getCategory(power);
+                const desc = power.descr || power.title || "";
+                const isLimited = Number(power.limited) === 1;
+
+                app.className = "power-card";
+                app.innerHTML = `
+                    <div class="id-badge">ID ${escapeHtml(id)}</div>
+
+                    <div class="power-figure">
+                        <img
+                            class="power-image"
+                            src="${image}"
+                            alt="${escapeHtml(power.name)}"
+                            onerror="this.style.opacity='0.2'; this.alt='Image unavailable';"
+                        />
+                        <div class="pedestal"></div>
+                    </div>
+
+                    <div class="power-subtitle">${escapeHtml(T.subtitle)}</div>
+                    <h1 class="power-name">${escapeHtml(power.name)}</h1>
+
+                    <div class="meta-list">
+                        <div class="meta-row">
+                            <img class="meta-icon" src="${ICONS.price}" alt="${escapeHtml(T.price)}" />
+                            <div class="meta-label">${escapeHtml(T.price)}</div>
+                            <div class="meta-value">${escapeHtml(getStoreValue(power))}</div>
+                        </div>
+
+                        <div class="meta-row">
+                            <img class="meta-icon" src="${ICONS.status}" alt="${escapeHtml(T.status)}" />
+                            <div class="meta-label">${escapeHtml(T.status)}</div>
+                            <div class="meta-value ${isLimited ? "limited" : ""}">${escapeHtml(status)}</div>
+                        </div>
+
+                        <div class="meta-row">
+                            <img class="meta-icon" src="${ICONS.category}" alt="${escapeHtml(T.category)}" />
+                            <div class="meta-label">${escapeHtml(T.category)}</div>
+                            <div class="meta-value">${escapeHtml(category)}</div>
+                        </div>
+                    </div>
+
+                    <div class="subtle">${escapeHtml(desc)}</div>
+                `;
+            }
+
+            function renderError(message) {
+                const app = document.getElementById("app");
+                app.className = "error";
+                app.innerHTML = `
+                    <h2>${escapeHtml(T.loadErrorTitle)}</h2>
+                    <p>${escapeHtml(message)}</p>
+                `;
+            }
+
+            async function loadLatestPower() {
+                renderLoading();
+
+                try {
+                    const res = await fetch(API_URL, {
+                        method: "GET",
+                        headers: { Accept: "application/json" },
+                    });
+
+                    if (!res.ok) {
+                        throw new Error(`HTTP ${res.status}`);
+                    }
+
+                    const data = await res.json();
+                    if (!data || !data.powers) {
+                        throw new Error("Invalid API response");
+                    }
+
+                    const latest = getHighestPowerEntry(data.powers);
+                    if (!latest || !latest.power) {
+                        throw new Error("No released powers found");
+                    }
+
+                    renderPower(latest.id, latest.power);
+                } catch (error) {
+                    renderError(`${error.message}. ${T.loadErrorSuffix}`);
+                }
+            }
+
+            loadLatestPower();
+        </script>
+    </body>
+</html>
