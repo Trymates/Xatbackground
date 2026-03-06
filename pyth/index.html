@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>PythBots</title>
+        <title>PythBots Hero</title>
         <style>
             :root {
                 --bg-main: #050a6b;
@@ -524,20 +524,21 @@
             .edit-note {
                 position: absolute;
                 left: 18px;
-                bottom: 18px;
+                bottom: 82px;
                 z-index: 10;
                 padding: 10px 14px;
                 border-radius: 12px;
-                background: rgba(7, 12, 60, 0.68);
+                background: rgba(7, 12, 60, 0.78);
                 border: 1px solid rgba(255, 255, 255, 0.1);
-                color: rgba(255, 255, 255, 0.78);
+                color: rgba(255, 255, 255, 0.88);
                 font-size: 12px;
                 letter-spacing: 0.3px;
                 backdrop-filter: blur(6px);
                 transition:
                     opacity 0.35s ease,
                     transform 0.35s ease;
-                max-width: 340px;
+                max-width: 420px;
+                line-height: 1.45;
             }
 
             .edit-note.tip-fade-out {
@@ -550,59 +551,23 @@
                 transform: translateY(0);
             }
 
-            .release-power-btn {
+            .release-power-display {
                 position: absolute;
-                right: 18px;
-                bottom: 18px;
-                z-index: 12;
-                border: 1px solid rgba(255, 255, 255, 0.16);
-                background: linear-gradient(
-                    180deg,
-                    rgba(16, 28, 92, 0.95),
-                    rgba(8, 14, 52, 0.95)
-                );
-                color: #eef4ff;
-                padding: 11px 16px;
-                border-radius: 14px;
-                font-size: 13px;
-                font-weight: 700;
-                letter-spacing: 0.4px;
-                cursor: pointer;
-                box-shadow:
-                    0 12px 30px rgba(0, 0, 0, 0.28),
-                    inset 0 1px 0 rgba(255, 255, 255, 0.08);
-                backdrop-filter: blur(8px);
-                transition:
-                    transform 0.2s ease,
-                    box-shadow 0.2s ease,
-                    border-color 0.2s ease;
-            }
-
-            .release-power-btn:hover {
-                transform: translateY(-2px);
-                border-color: rgba(255, 255, 255, 0.28);
-                box-shadow:
-                    0 16px 34px rgba(0, 0, 0, 0.34),
-                    0 0 18px rgba(96, 140, 255, 0.18);
-            }
-
-            .release-power-panel {
-                position: absolute;
-                right: 18px;
-                bottom: 70px;
-                width: 305px;
-                min-height: 150px;
-                z-index: 11;
+                right: 3.9%;
+                top: calc(53.2% - 155px);
+                width: 330px;
+                min-height: 140px;
+                z-index: 9;
                 border-radius: 18px;
                 padding: 16px;
                 background: linear-gradient(
                     180deg,
-                    rgba(12, 24, 92, 0.92),
-                    rgba(6, 12, 45, 0.94)
+                    rgba(12, 24, 92, 0.86),
+                    rgba(6, 12, 45, 0.9)
                 );
                 border: 1px solid rgba(255, 255, 255, 0.12);
                 box-shadow:
-                    0 22px 50px rgba(0, 0, 0, 0.36),
+                    0 22px 50px rgba(0, 0, 0, 0.32),
                     inset 0 1px 0 rgba(255, 255, 255, 0.06);
                 backdrop-filter: blur(12px);
                 color: #eef4ff;
@@ -615,38 +580,19 @@
                     visibility 0.22s ease;
             }
 
-            .release-power-panel.open {
+            .release-power-display.show {
                 opacity: 1;
                 visibility: visible;
                 transform: translateY(0) scale(1);
             }
 
-            .release-head {
-                display: flex;
-                align-items: center;
-                justify-content: space-between;
-                gap: 12px;
-                margin-bottom: 12px;
-            }
-
             .release-title {
-                font-size: 13px;
+                font-size: 12px;
                 font-weight: 800;
-                letter-spacing: 0.8px;
+                letter-spacing: 1px;
                 text-transform: uppercase;
                 color: rgba(228, 236, 255, 0.94);
-            }
-
-            .release-close {
-                width: 28px;
-                height: 28px;
-                border: 0;
-                border-radius: 10px;
-                cursor: pointer;
-                color: #fff;
-                background: rgba(255, 255, 255, 0.08);
-                font-size: 16px;
-                line-height: 1;
+                margin-bottom: 12px;
             }
 
             .release-body.loading,
@@ -855,12 +801,17 @@
                     transform: translateY(-50%) scale(0.88);
                     transform-origin: right center;
                 }
+
+                .release-power-display {
+                    width: 290px;
+                    top: calc(53.2% - 145px);
+                }
             }
 
             @media (max-width: 720px) {
                 .logo-card {
                     left: 50%;
-                    top: 32%;
+                    top: 31%;
                     transform: translate(-50%, -50%);
                 }
 
@@ -871,25 +822,19 @@
                     transform: translate(-50%, -50%) scale(0.86);
                 }
 
-                .edit-note {
-                    left: 12px;
-                    right: 110px;
-                    bottom: 12px;
-                    max-width: none;
-                }
-
-                .release-power-btn {
-                    right: 12px;
-                    bottom: 12px;
-                    padding: 10px 12px;
-                    font-size: 12px;
-                }
-
-                .release-power-panel {
+                .release-power-display {
                     left: 12px;
                     right: 12px;
                     width: auto;
-                    bottom: 60px;
+                    top: auto;
+                    bottom: 134px;
+                }
+
+                .edit-note {
+                    left: 12px;
+                    right: 12px;
+                    bottom: 56px;
+                    max-width: none;
                 }
 
                 @keyframes floatBox {
@@ -1059,32 +1004,15 @@
                 <span class="brand-large"></span>
             </div>
 
-            <div class="edit-note tip-fade-in" id="rotatingTip">
-                Buy a bot: Do the command !buyabot
-            </div>
-
-            <button
-                class="release-power-btn"
-                id="releasePowerBtn"
-                type="button"
-            >
-                Latest Power
-            </button>
-
-            <div class="release-power-panel" id="releasePowerPanel">
-                <div class="release-head">
-                    <div class="release-title">Latest Released Power</div>
-                    <button
-                        class="release-close"
-                        id="releasePowerClose"
-                        type="button"
-                    >
-                        ×
-                    </button>
-                </div>
+            <div class="release-power-display" id="releasePowerDisplay">
+                <div class="release-title">Latest Released Power</div>
                 <div class="release-body loading" id="releasePowerBody">
                     Loading latest release...
                 </div>
+            </div>
+
+            <div class="edit-note tip-fade-in" id="rotatingTip">
+                Buy a bot: Do the command !buyabot
             </div>
         </div>
 
@@ -1159,21 +1087,20 @@
 
             const RELEASE_API_URL =
                 "https://tradexat.com/modcp/api.php?action=powers&released=1&desc=1";
-            const releasePowerBtn = document.getElementById("releasePowerBtn");
-            const releasePowerPanel =
-                document.getElementById("releasePowerPanel");
-            const releasePowerClose =
-                document.getElementById("releasePowerClose");
+            const releasePowerDisplay = document.getElementById(
+                "releasePowerDisplay",
+            );
             const releasePowerBody =
                 document.getElementById("releasePowerBody");
-            let releaseLoaded = false;
+            const queryParams = new URLSearchParams(window.location.search);
+            const showRelease = queryParams.has("release");
 
             function escapeHtml(value) {
                 return String(value ?? "")
                     .replace(/&/g, "&amp;")
                     .replace(/</g, "&lt;")
                     .replace(/>/g, "&gt;")
-                    .replace(/\"/g, "&quot;")
+                    .replace(/\\"/g, "&quot;")
                     .replace(/'/g, "&#39;");
             }
 
@@ -1213,25 +1140,38 @@
             function renderReleasePower(id, power) {
                 const desc =
                     power.descr || power.title || "No description available.";
+
                 releasePowerBody.className = "release-body";
                 releasePowerBody.innerHTML = `
                     <div class="release-card">
                         <div class="release-image-wrap">
-                            <img class="release-image" src="${getPowerImage(power)}" alt="${escapeHtml(power.name)}" onerror="this.style.opacity='0.25'" />
+                            <img class="release-image" src="${getPowerImage(
+                                power,
+                            )}" alt="${escapeHtml(
+                                power.name,
+                            )}" onerror="this.style.opacity='0.25'" />
                         </div>
                         <div class="release-info">
-                            <h3 class="release-name">${escapeHtml(power.name)}</h3>
+                            <h3 class="release-name">${escapeHtml(
+                                power.name,
+                            )}</h3>
                             <div class="release-row">
                                 <span class="release-label">Price In Store</span>
-                                <span class="release-value">${escapeHtml(getPowerStore(power))}</span>
+                                <span class="release-value">${escapeHtml(
+                                    getPowerStore(power),
+                                )}</span>
                             </div>
                             <div class="release-row">
                                 <span class="release-label">Status</span>
-                                <span class="release-value">${escapeHtml(getPowerStatus(power))}</span>
+                                <span class="release-value">${escapeHtml(
+                                    getPowerStatus(power),
+                                )}</span>
                             </div>
                             <div class="release-row">
                                 <span class="release-label">Power ID</span>
-                                <span class="release-value">${escapeHtml(id)}</span>
+                                <span class="release-value">${escapeHtml(
+                                    id,
+                                )}</span>
                             </div>
                         </div>
                     </div>
@@ -1240,7 +1180,6 @@
             }
 
             async function loadReleasedPower() {
-                if (releaseLoaded) return;
                 renderReleaseLoading();
 
                 try {
@@ -1259,7 +1198,6 @@
                         throw new Error("No released powers found");
 
                     renderReleasePower(latest.id, latest.power);
-                    releaseLoaded = true;
                 } catch (error) {
                     renderReleaseError(
                         `Could not load released power: ${error.message}`,
@@ -1267,36 +1205,11 @@
                 }
             }
 
-            function openReleasePanel() {
-                releasePowerPanel.classList.add("open");
+            if (showRelease) {
+                releasePowerDisplay.classList.add("show");
                 loadReleasedPower();
             }
 
-            function closeReleasePanel() {
-                releasePowerPanel.classList.remove("open");
-            }
-
-            releasePowerBtn.addEventListener("click", () => {
-                if (releasePowerPanel.classList.contains("open")) {
-                    closeReleasePanel();
-                } else {
-                    openReleasePanel();
-                }
-            });
-
-            releasePowerClose.addEventListener("click", closeReleasePanel);
-
-            document.addEventListener("click", (event) => {
-                const clickedInsidePanel = releasePowerPanel.contains(
-                    event.target,
-                );
-                const clickedButton = releasePowerBtn.contains(event.target);
-                if (!clickedInsidePanel && !clickedButton) {
-                    closeReleasePanel();
-                }
-            });
-
-            loadReleasedPower();
             startTipRotation();
         </script>
     </body>
