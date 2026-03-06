@@ -3,12 +3,9 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>PythBots Hero</title>
+        <title>PythBots</title>
         <style>
             :root {
-                /* =============================
-                   EASY EDIT COLORS
-                ============================== */
                 --bg-main: #050a6b;
                 --bg-dark: #03054a;
                 --grid-blue: rgba(33, 116, 255, 0.28);
@@ -27,9 +24,6 @@
                 --brand-outline: rgba(255, 43, 98, 0.8);
                 --scanline: rgba(255, 255, 255, 0.03);
 
-                /* =============================
-                   EASY EDIT TEXT
-                ============================== */
                 --left-logo-line-1: "PYTH";
                 --left-logo-line-2: "BOTS";
                 --right-tag-small: "XAT";
@@ -91,7 +85,6 @@
                     );
             }
 
-            /* GRID */
             .grid {
                 position: absolute;
                 inset: 0;
@@ -132,7 +125,6 @@
                 mix-blend-mode: screen;
             }
 
-            /* VERTICAL LIGHT RAIN */
             .rain,
             .rain::before,
             .rain::after {
@@ -201,7 +193,6 @@
                     80% 5%;
             }
 
-            /* CIRCUIT LINES */
             .circuit {
                 position: absolute;
                 inset: 0;
@@ -263,7 +254,6 @@
                 animation-delay: 0.8s;
             }
 
-            /* SPEED STREAKS */
             .streak {
                 position: absolute;
                 height: 10px;
@@ -293,7 +283,6 @@
                 );
             }
 
-            /* LEFT LOGO */
             .logo-card {
                 position: absolute;
                 left: 6.2%;
@@ -420,12 +409,10 @@
             .logo-text .line1::before {
                 content: var(--left-logo-line-1);
             }
-
             .logo-text .line2::before {
                 content: var(--left-logo-line-2);
             }
 
-            /* RIGHT BRAND */
             .brand-tag {
                 position: absolute;
                 right: 4.4%;
@@ -434,7 +421,7 @@
                 display: inline-flex;
                 align-items: center;
                 gap: 12px;
-                padding: 10px 18px 10px 18px;
+                padding: 10px 18px;
                 min-height: 38px;
                 border: 1.5px solid var(--brand-outline);
                 border-radius: 999px;
@@ -464,15 +451,12 @@
             .brand-small {
                 font-size: 1.05rem;
             }
-
             .brand-large {
                 font-size: 1.28rem;
             }
-
             .brand-small::before {
                 content: var(--right-tag-small);
             }
-
             .brand-large::before {
                 content: var(--right-tag-large);
             }
@@ -503,7 +487,6 @@
                 transform: rotate(-45deg);
             }
 
-            /* TOP LEFT STREAKS */
             .top-bands {
                 position: absolute;
                 left: 0;
@@ -538,7 +521,6 @@
                 animation-delay: 0.65s;
             }
 
-            /* EDIT PANEL / ROTATING TIP */
             .edit-note {
                 position: absolute;
                 left: 18px;
@@ -566,6 +548,193 @@
             .edit-note.tip-fade-in {
                 opacity: 1;
                 transform: translateY(0);
+            }
+
+            .release-power-btn {
+                position: absolute;
+                right: 18px;
+                bottom: 18px;
+                z-index: 12;
+                border: 1px solid rgba(255, 255, 255, 0.16);
+                background: linear-gradient(
+                    180deg,
+                    rgba(16, 28, 92, 0.95),
+                    rgba(8, 14, 52, 0.95)
+                );
+                color: #eef4ff;
+                padding: 11px 16px;
+                border-radius: 14px;
+                font-size: 13px;
+                font-weight: 700;
+                letter-spacing: 0.4px;
+                cursor: pointer;
+                box-shadow:
+                    0 12px 30px rgba(0, 0, 0, 0.28),
+                    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+                backdrop-filter: blur(8px);
+                transition:
+                    transform 0.2s ease,
+                    box-shadow 0.2s ease,
+                    border-color 0.2s ease;
+            }
+
+            .release-power-btn:hover {
+                transform: translateY(-2px);
+                border-color: rgba(255, 255, 255, 0.28);
+                box-shadow:
+                    0 16px 34px rgba(0, 0, 0, 0.34),
+                    0 0 18px rgba(96, 140, 255, 0.18);
+            }
+
+            .release-power-panel {
+                position: absolute;
+                right: 18px;
+                bottom: 70px;
+                width: 305px;
+                min-height: 150px;
+                z-index: 11;
+                border-radius: 18px;
+                padding: 16px;
+                background: linear-gradient(
+                    180deg,
+                    rgba(12, 24, 92, 0.92),
+                    rgba(6, 12, 45, 0.94)
+                );
+                border: 1px solid rgba(255, 255, 255, 0.12);
+                box-shadow:
+                    0 22px 50px rgba(0, 0, 0, 0.36),
+                    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+                backdrop-filter: blur(12px);
+                color: #eef4ff;
+                opacity: 0;
+                visibility: hidden;
+                transform: translateY(10px) scale(0.98);
+                transition:
+                    opacity 0.22s ease,
+                    transform 0.22s ease,
+                    visibility 0.22s ease;
+            }
+
+            .release-power-panel.open {
+                opacity: 1;
+                visibility: visible;
+                transform: translateY(0) scale(1);
+            }
+
+            .release-head {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                gap: 12px;
+                margin-bottom: 12px;
+            }
+
+            .release-title {
+                font-size: 13px;
+                font-weight: 800;
+                letter-spacing: 0.8px;
+                text-transform: uppercase;
+                color: rgba(228, 236, 255, 0.94);
+            }
+
+            .release-close {
+                width: 28px;
+                height: 28px;
+                border: 0;
+                border-radius: 10px;
+                cursor: pointer;
+                color: #fff;
+                background: rgba(255, 255, 255, 0.08);
+                font-size: 16px;
+                line-height: 1;
+            }
+
+            .release-body.loading,
+            .release-body.error {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                min-height: 100px;
+                text-align: center;
+                font-size: 13px;
+                color: rgba(220, 230, 255, 0.8);
+            }
+
+            .release-card {
+                display: flex;
+                align-items: center;
+                gap: 14px;
+            }
+
+            .release-image-wrap {
+                width: 84px;
+                height: 84px;
+                border-radius: 18px;
+                background: radial-gradient(
+                    circle at 35% 30%,
+                    rgba(255, 255, 255, 0.18),
+                    rgba(255, 255, 255, 0.03)
+                );
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                border: 1px solid rgba(255, 255, 255, 0.08);
+                flex: 0 0 84px;
+            }
+
+            .release-image {
+                width: 62px;
+                height: 62px;
+                object-fit: contain;
+                filter: drop-shadow(0 8px 12px rgba(0, 0, 0, 0.35));
+            }
+
+            .release-info {
+                min-width: 0;
+                flex: 1;
+            }
+
+            .release-name {
+                font-size: 26px;
+                font-weight: 800;
+                line-height: 0.95;
+                color: #f2f7ff;
+                margin: 0 0 8px;
+                text-shadow: 0 0 14px rgba(170, 205, 255, 0.2);
+                word-break: break-word;
+            }
+
+            .release-row {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                gap: 12px;
+                padding: 7px 0;
+                border-top: 1px solid rgba(255, 255, 255, 0.06);
+                font-size: 13px;
+            }
+
+            .release-row:first-of-type {
+                border-top: 0;
+            }
+
+            .release-label {
+                color: rgba(201, 216, 255, 0.72);
+            }
+
+            .release-value {
+                color: #f2f7ff;
+                font-weight: 700;
+                text-align: right;
+            }
+
+            .release-desc {
+                margin-top: 10px;
+                padding-top: 10px;
+                border-top: 1px solid rgba(255, 255, 255, 0.06);
+                font-size: 12px;
+                line-height: 1.45;
+                color: rgba(218, 228, 255, 0.78);
             }
 
             @keyframes gridPulse {
@@ -704,9 +873,23 @@
 
                 .edit-note {
                     left: 12px;
-                    right: 12px;
+                    right: 110px;
                     bottom: 12px;
                     max-width: none;
+                }
+
+                .release-power-btn {
+                    right: 12px;
+                    bottom: 12px;
+                    padding: 10px 12px;
+                    font-size: 12px;
+                }
+
+                .release-power-panel {
+                    left: 12px;
+                    right: 12px;
+                    width: auto;
+                    bottom: 60px;
                 }
 
                 @keyframes floatBox {
@@ -879,13 +1062,33 @@
             <div class="edit-note tip-fade-in" id="rotatingTip">
                 Buy a bot: Do the command !buyabot
             </div>
+
+            <button
+                class="release-power-btn"
+                id="releasePowerBtn"
+                type="button"
+            >
+                Latest Power
+            </button>
+
+            <div class="release-power-panel" id="releasePowerPanel">
+                <div class="release-head">
+                    <div class="release-title">Latest Released Power</div>
+                    <button
+                        class="release-close"
+                        id="releasePowerClose"
+                        type="button"
+                    >
+                        ×
+                    </button>
+                </div>
+                <div class="release-body loading" id="releasePowerBody">
+                    Loading latest release...
+                </div>
+            </div>
         </div>
 
         <script>
-            // Optional live-edit helper in browser console:
-            // setTheme({ bg: '#020b70', brand: '#ff3366', brand2: '#ff2bb0' })
-            // setText({ left1: 'PYTH', left2: 'BOTS', small: 'XAT', large: 'PYTHBOTS' })
-
             function setTheme({ bg, bgDark, brand, brand2, blue, pink } = {}) {
                 const root = document.documentElement;
                 if (bg) root.style.setProperty("--bg-main", bg);
@@ -917,10 +1120,6 @@
             window.setTheme = setTheme;
             window.setText = setText;
 
-            /* =========================
-               ROTATING TIPS
-               Edit these 5 tips below
-            ========================= */
             const tips = [
                 "Buy a bot: Do the command !buyabot",
                 "Need help? You can do !help if no staff are available.",
@@ -931,7 +1130,7 @@
 
             let currentTipIndex = 0;
             const tipElement = document.getElementById("rotatingTip");
-            const tipIntervalMs = 30000; // 30 seconds
+            const tipIntervalMs = 30000;
             const fadeDurationMs = 350;
 
             function showTip(index) {
@@ -949,9 +1148,7 @@
 
             function startTipRotation() {
                 if (!tipElement || tips.length === 0) return;
-
                 tipElement.textContent = tips[0];
-
                 if (tips.length === 1) return;
 
                 setInterval(() => {
@@ -960,6 +1157,146 @@
                 }, tipIntervalMs);
             }
 
+            const RELEASE_API_URL =
+                "https://tradexat.com/modcp/api.php?action=powers&released=1&desc=1";
+            const releasePowerBtn = document.getElementById("releasePowerBtn");
+            const releasePowerPanel =
+                document.getElementById("releasePowerPanel");
+            const releasePowerClose =
+                document.getElementById("releasePowerClose");
+            const releasePowerBody =
+                document.getElementById("releasePowerBody");
+            let releaseLoaded = false;
+
+            function escapeHtml(value) {
+                return String(value ?? "")
+                    .replace(/&/g, "&amp;")
+                    .replace(/</g, "&lt;")
+                    .replace(/>/g, "&gt;")
+                    .replace(/\"/g, "&quot;")
+                    .replace(/'/g, "&#39;");
+            }
+
+            function getLatestPowerEntry(powers) {
+                const ids = Object.keys(powers || {})
+                    .map(Number)
+                    .filter(Number.isFinite)
+                    .sort((a, b) => b - a);
+
+                if (!ids.length) return null;
+                const id = ids[0];
+                return { id, power: powers[id] || powers[String(id)] };
+            }
+
+            function getPowerImage(power) {
+                return `https://gs.xat.com/a_(${encodeURIComponent(power.name)})_80`;
+            }
+
+            function getPowerStatus(power) {
+                return Number(power.limited) === 1 ? "Limited" : "Available";
+            }
+
+            function getPowerStore(power) {
+                return power.store || "N/A";
+            }
+
+            function renderReleaseLoading() {
+                releasePowerBody.className = "release-body loading";
+                releasePowerBody.textContent = "Loading latest release...";
+            }
+
+            function renderReleaseError(message) {
+                releasePowerBody.className = "release-body error";
+                releasePowerBody.textContent = message;
+            }
+
+            function renderReleasePower(id, power) {
+                const desc =
+                    power.descr || power.title || "No description available.";
+                releasePowerBody.className = "release-body";
+                releasePowerBody.innerHTML = `
+                    <div class="release-card">
+                        <div class="release-image-wrap">
+                            <img class="release-image" src="${getPowerImage(power)}" alt="${escapeHtml(power.name)}" onerror="this.style.opacity='0.25'" />
+                        </div>
+                        <div class="release-info">
+                            <h3 class="release-name">${escapeHtml(power.name)}</h3>
+                            <div class="release-row">
+                                <span class="release-label">Price In Store</span>
+                                <span class="release-value">${escapeHtml(getPowerStore(power))}</span>
+                            </div>
+                            <div class="release-row">
+                                <span class="release-label">Status</span>
+                                <span class="release-value">${escapeHtml(getPowerStatus(power))}</span>
+                            </div>
+                            <div class="release-row">
+                                <span class="release-label">Power ID</span>
+                                <span class="release-value">${escapeHtml(id)}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="release-desc">${escapeHtml(desc)}</div>
+                `;
+            }
+
+            async function loadReleasedPower() {
+                if (releaseLoaded) return;
+                renderReleaseLoading();
+
+                try {
+                    const res = await fetch(RELEASE_API_URL, {
+                        method: "GET",
+                        headers: { Accept: "application/json" },
+                    });
+
+                    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+                    const data = await res.json();
+                    if (!data || !data.powers)
+                        throw new Error("Invalid API response");
+
+                    const latest = getLatestPowerEntry(data.powers);
+                    if (!latest || !latest.power)
+                        throw new Error("No released powers found");
+
+                    renderReleasePower(latest.id, latest.power);
+                    releaseLoaded = true;
+                } catch (error) {
+                    renderReleaseError(
+                        `Could not load released power: ${error.message}`,
+                    );
+                }
+            }
+
+            function openReleasePanel() {
+                releasePowerPanel.classList.add("open");
+                loadReleasedPower();
+            }
+
+            function closeReleasePanel() {
+                releasePowerPanel.classList.remove("open");
+            }
+
+            releasePowerBtn.addEventListener("click", () => {
+                if (releasePowerPanel.classList.contains("open")) {
+                    closeReleasePanel();
+                } else {
+                    openReleasePanel();
+                }
+            });
+
+            releasePowerClose.addEventListener("click", closeReleasePanel);
+
+            document.addEventListener("click", (event) => {
+                const clickedInsidePanel = releasePowerPanel.contains(
+                    event.target,
+                );
+                const clickedButton = releasePowerBtn.contains(event.target);
+                if (!clickedInsidePanel && !clickedButton) {
+                    closeReleasePanel();
+                }
+            });
+
+            loadReleasedPower();
             startTipRotation();
         </script>
     </body>
