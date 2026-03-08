@@ -1,0 +1,1518 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>PythBots - Saint Patrick's Day</title>
+        <style>
+            :root {
+                --bg-main: #041b0f;
+                --bg-dark: #021008;
+                --bg-deep: #062d18;
+
+                --grid-green: rgba(93, 255, 158, 0.2);
+                --grid-gold: rgba(255, 211, 92, 0.12);
+
+                --line-green: rgba(69, 255, 133, 0.92);
+                --line-lime: rgba(145, 255, 92, 0.78);
+                --line-gold: rgba(255, 216, 90, 0.8);
+                --line-soft: rgba(92, 255, 170, 0.22);
+
+                --glow-green: rgba(104, 255, 151, 0.95);
+                --glow-lime: rgba(177, 255, 118, 0.95);
+                --glow-gold: rgba(255, 224, 125, 0.95);
+
+                --logo-bg-1: rgba(61, 163, 89, 0.24);
+                --logo-bg-2: rgba(255, 255, 255, 0.04);
+                --logo-border: rgba(220, 255, 228, 0.95);
+                --logo-text: #f4fff6;
+
+                --brand-main: #7cff7c;
+                --brand-accent: #ffd95e;
+                --brand-outline: rgba(123, 255, 164, 0.72);
+
+                --scanline: rgba(255, 255, 255, 0.02);
+
+                --left-logo-line-1: "LUCKY";
+                --left-logo-line-2: "BOTS";
+                --right-tag-small: "XAT";
+                --right-tag-large: "PYTHBOTS";
+
+                --glass-bg: rgba(5, 30, 16, 0.76);
+                --glass-border: rgba(181, 255, 196, 0.16);
+                --white-soft: rgba(245, 255, 247, 0.9);
+                --white-dim: rgba(226, 255, 230, 0.72);
+            }
+
+            * {
+                box-sizing: border-box;
+            }
+
+            html,
+            body {
+                margin: 0;
+                width: 100%;
+                height: 100%;
+                overflow: hidden;
+                background:
+                    radial-gradient(
+                        circle at 20% 20%,
+                        rgba(97, 255, 145, 0.14),
+                        transparent 28%
+                    ),
+                    radial-gradient(
+                        circle at 82% 16%,
+                        rgba(255, 217, 94, 0.12),
+                        transparent 24%
+                    ),
+                    radial-gradient(
+                        circle at 72% 68%,
+                        rgba(105, 255, 158, 0.12),
+                        transparent 30%
+                    ),
+                    linear-gradient(135deg, var(--bg-main), var(--bg-dark));
+                font-family: Arial, Helvetica, sans-serif;
+            }
+
+            body::before {
+                content: "";
+                position: fixed;
+                inset: 0;
+                background: repeating-linear-gradient(
+                    to bottom,
+                    transparent 0px,
+                    transparent 4px,
+                    var(--scanline) 5px
+                );
+                pointer-events: none;
+                opacity: 0.3;
+                mix-blend-mode: screen;
+            }
+
+            body::after {
+                content: "";
+                position: fixed;
+                inset: 0;
+                pointer-events: none;
+                background:
+                    radial-gradient(
+                        circle at 10% 30%,
+                        rgba(255, 231, 156, 0.05) 0 2px,
+                        transparent 3px
+                    ),
+                    radial-gradient(
+                        circle at 24% 72%,
+                        rgba(255, 231, 156, 0.06) 0 2px,
+                        transparent 3px
+                    ),
+                    radial-gradient(
+                        circle at 58% 18%,
+                        rgba(255, 231, 156, 0.06) 0 2px,
+                        transparent 3px
+                    ),
+                    radial-gradient(
+                        circle at 74% 58%,
+                        rgba(255, 231, 156, 0.06) 0 2px,
+                        transparent 3px
+                    ),
+                    radial-gradient(
+                        circle at 88% 34%,
+                        rgba(255, 231, 156, 0.05) 0 2px,
+                        transparent 3px
+                    );
+                animation: sparkleDrift 10s linear infinite;
+                opacity: 0.7;
+            }
+
+            .scene {
+                position: relative;
+                width: 100vw;
+                height: 100vh;
+                overflow: hidden;
+                background:
+                    radial-gradient(
+                        circle at 50% 48%,
+                        rgba(55, 200, 104, 0.06),
+                        transparent 34%
+                    ),
+                    linear-gradient(
+                        to right,
+                        transparent 0%,
+                        rgba(23, 89, 48, 0.16) 76%,
+                        rgba(255, 214, 82, 0.06) 100%
+                    ),
+                    linear-gradient(
+                        135deg,
+                        #04170d 0%,
+                        #072915 58%,
+                        #03120a 100%
+                    );
+            }
+
+            .grid {
+                position: absolute;
+                inset: 0;
+                background-image:
+                    linear-gradient(
+                        to right,
+                        var(--grid-green) 1px,
+                        transparent 1px
+                    ),
+                    linear-gradient(
+                        to bottom,
+                        var(--grid-green) 1px,
+                        transparent 1px
+                    );
+                background-size: 88px 88px;
+                opacity: 0.8;
+                transform: perspective(1200px) rotateX(0deg) scale(1.1);
+                animation: gridPulse 7s ease-in-out infinite;
+            }
+
+            .grid::after {
+                content: "";
+                position: absolute;
+                inset: 0;
+                background-image:
+                    linear-gradient(
+                        to right,
+                        var(--grid-gold) 1px,
+                        transparent 1px
+                    ),
+                    linear-gradient(
+                        to bottom,
+                        var(--grid-gold) 1px,
+                        transparent 1px
+                    );
+                background-size: 176px 176px;
+                opacity: 0.45;
+                mix-blend-mode: screen;
+            }
+
+            .rain,
+            .rain::before,
+            .rain::after {
+                position: absolute;
+                inset: 0;
+                content: "";
+                background-image:
+                    linear-gradient(
+                        to bottom,
+                        transparent,
+                        rgba(89, 255, 148, 0.75),
+                        transparent
+                    ),
+                    linear-gradient(
+                        to bottom,
+                        transparent,
+                        rgba(255, 215, 93, 0.55),
+                        transparent
+                    ),
+                    linear-gradient(
+                        to bottom,
+                        transparent,
+                        rgba(141, 255, 96, 0.45),
+                        transparent
+                    ),
+                    linear-gradient(
+                        to bottom,
+                        transparent,
+                        rgba(127, 255, 174, 0.3),
+                        transparent
+                    );
+                background-repeat: repeat-x;
+                background-size:
+                    2px 190px,
+                    2px 230px,
+                    1px 140px,
+                    1px 210px;
+                background-position:
+                    5% -20%,
+                    28% 15%,
+                    63% -10%,
+                    92% 5%;
+                opacity: 0.26;
+                animation: rainMove 10s linear infinite;
+                pointer-events: none;
+            }
+
+            .rain::before {
+                opacity: 0.19;
+                filter: blur(0.4px);
+                animation-duration: 14s;
+                background-position:
+                    15% 0%,
+                    44% 20%,
+                    75% 10%,
+                    87% 0%;
+            }
+
+            .rain::after {
+                opacity: 0.13;
+                animation-duration: 18s;
+                background-position:
+                    10% 15%,
+                    36% 2%,
+                    58% 12%,
+                    80% 5%;
+            }
+
+            .circuit {
+                position: absolute;
+                inset: 0;
+                pointer-events: none;
+            }
+
+            .circuit svg {
+                width: 100%;
+                height: 100%;
+                display: block;
+            }
+
+            .path-green,
+            .path-gold,
+            .path-soft {
+                fill: none;
+                stroke-linecap: round;
+                stroke-linejoin: round;
+                vector-effect: non-scaling-stroke;
+            }
+
+            .path-green {
+                stroke: var(--line-green);
+                stroke-width: 3;
+                filter: drop-shadow(0 0 8px rgba(74, 255, 147, 0.72));
+                stroke-dasharray: 16 12;
+                animation: dashMove 22s linear infinite;
+            }
+
+            .path-gold {
+                stroke: var(--line-gold);
+                stroke-width: 3;
+                filter: drop-shadow(0 0 8px rgba(255, 213, 92, 0.4));
+                stroke-dasharray: 22 16;
+                animation: dashMoveReverse 19s linear infinite;
+            }
+
+            .path-soft {
+                stroke: var(--line-soft);
+                stroke-width: 2;
+            }
+
+            .hud-dots circle,
+            .hud-bars rect,
+            .hud-boxes rect,
+            .coin-pips circle {
+                animation: hudBlink 2.8s ease-in-out infinite;
+            }
+
+            .hud-bars rect:nth-child(2) {
+                animation-delay: 0.2s;
+            }
+            .hud-bars rect:nth-child(3) {
+                animation-delay: 0.4s;
+            }
+            .hud-bars rect:nth-child(4) {
+                animation-delay: 0.6s;
+            }
+            .hud-bars rect:nth-child(5) {
+                animation-delay: 0.8s;
+            }
+
+            .streak {
+                position: absolute;
+                height: 10px;
+                border-radius: 999px;
+                filter: blur(1.5px);
+                opacity: 0.55;
+                animation: streakMove 5s linear infinite;
+            }
+
+            .streak.green {
+                background: linear-gradient(
+                    90deg,
+                    transparent,
+                    rgba(83, 255, 134, 0.22),
+                    rgba(83, 255, 134, 0.96),
+                    transparent
+                );
+            }
+
+            .streak.gold {
+                background: linear-gradient(
+                    90deg,
+                    transparent,
+                    rgba(255, 214, 82, 0.18),
+                    rgba(255, 214, 82, 0.88),
+                    transparent
+                );
+            }
+
+            .logo-card {
+                position: absolute;
+                left: 6.2%;
+                top: 46%;
+                transform: translateY(-50%);
+                width: 268px;
+                height: 202px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                z-index: 5;
+                animation: floatBox 5.5s ease-in-out infinite;
+            }
+
+            .logo-frame,
+            .logo-frame::before,
+            .logo-frame::after {
+                clip-path: polygon(
+                    12% 0%,
+                    88% 0%,
+                    100% 14%,
+                    100% 86%,
+                    88% 100%,
+                    12% 100%,
+                    0% 86%,
+                    0% 14%
+                );
+            }
+
+            .logo-frame {
+                position: relative;
+                width: 100%;
+                height: 100%;
+                border: 4px solid var(--logo-border);
+                background: linear-gradient(
+                    180deg,
+                    var(--logo-bg-1),
+                    var(--logo-bg-2)
+                );
+                box-shadow:
+                    0 0 26px rgba(91, 255, 144, 0.26),
+                    0 0 48px rgba(255, 214, 82, 0.1),
+                    inset 0 0 28px rgba(255, 255, 255, 0.05);
+                backdrop-filter: blur(10px);
+            }
+
+            .logo-frame::before {
+                content: "";
+                position: absolute;
+                inset: 10px;
+                border: 2px solid rgba(233, 255, 240, 0.68);
+                opacity: 0.88;
+            }
+
+            .logo-frame::after {
+                content: "";
+                position: absolute;
+                inset: -13px;
+                border: 2px solid rgba(255, 226, 138, 0.72);
+                opacity: 0.92;
+                pointer-events: none;
+                box-shadow: 0 0 22px rgba(255, 221, 118, 0.2);
+            }
+
+            .corner-node {
+                position: absolute;
+                width: 11px;
+                height: 11px;
+                background: linear-gradient(180deg, #f5ffbb, #ffffff);
+                box-shadow:
+                    0 0 10px rgba(255, 255, 255, 0.82),
+                    0 0 18px rgba(149, 255, 185, 0.65);
+                z-index: 2;
+            }
+
+            .n1 {
+                top: -6px;
+                left: 28px;
+            }
+            .n2 {
+                top: -6px;
+                left: 50px;
+            }
+            .n3 {
+                top: -6px;
+                left: 72px;
+            }
+            .n4 {
+                right: -6px;
+                bottom: 22px;
+            }
+            .n5 {
+                right: 18px;
+                bottom: -6px;
+            }
+            .n6 {
+                right: 40px;
+                bottom: -6px;
+            }
+
+            .logo-text {
+                position: absolute;
+                inset: 0;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                z-index: 3;
+                text-align: center;
+                color: var(--logo-text);
+                font-weight: 900;
+                line-height: 0.9;
+                letter-spacing: 2px;
+                text-shadow:
+                    0 0 7px rgba(255, 255, 255, 0.75),
+                    0 0 18px rgba(127, 255, 168, 0.8),
+                    0 0 34px rgba(255, 217, 94, 0.16);
+                user-select: text;
+            }
+
+            .logo-text .line1,
+            .logo-text .line2 {
+                display: block;
+                font-size: 4rem;
+            }
+
+            .logo-text .line1::before {
+                content: var(--left-logo-line-1);
+            }
+
+            .logo-text .line2::before {
+                content: var(--left-logo-line-2);
+            }
+
+            .logo-card::after {
+                content: "☘";
+                position: absolute;
+                right: -18px;
+                top: -16px;
+                font-size: 42px;
+                color: #baff6e;
+                text-shadow:
+                    0 0 12px rgba(147, 255, 109, 0.8),
+                    0 0 24px rgba(255, 213, 90, 0.25);
+                animation: cloverSpin 8s linear infinite;
+                opacity: 0.92;
+            }
+
+            .right-stack {
+                position: absolute;
+                top: clamp(180px, 26vh, 300px);
+                right: clamp(16px, 2.8vw, 56px);
+                width: clamp(230px, 18vw, 340px);
+                max-width: 340px;
+                z-index: 9;
+                display: flex;
+                flex-direction: column;
+                gap: 14px;
+                align-items: stretch;
+            }
+
+            .right-stack > * {
+                width: 100%;
+            }
+
+            @media (max-width: 1510px) {
+                .right-stack {
+                    width: clamp(210px, 16vw, 290px);
+                }
+            }
+
+            @media (max-width: 1400px) {
+                .right-stack {
+                    width: 244px;
+                }
+
+                .release-name {
+                    font-size: 20px;
+                }
+            }
+
+            @media (max-width: 1330px) {
+                .right-stack {
+                    display: none;
+                }
+            }
+
+            .release-power-display {
+                min-height: auto;
+                border-radius: 22px;
+                padding: 16px;
+                background:
+                    radial-gradient(
+                        circle at top left,
+                        rgba(118, 255, 164, 0.08),
+                        transparent 40%
+                    ),
+                    linear-gradient(
+                        180deg,
+                        rgba(6, 36, 18, 0.9),
+                        rgba(4, 20, 10, 0.92)
+                    );
+                border: 1px solid var(--glass-border);
+                box-shadow:
+                    0 22px 50px rgba(0, 0, 0, 0.35),
+                    0 0 22px rgba(110, 255, 149, 0.08),
+                    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+                backdrop-filter: blur(14px);
+                color: var(--white-soft);
+                opacity: 0;
+                visibility: hidden;
+                transform: translateY(10px) scale(0.98);
+                transition:
+                    opacity 0.22s ease,
+                    transform 0.22s ease,
+                    visibility 0.22s ease;
+            }
+
+            .release-power-display.show {
+                opacity: 1;
+                visibility: visible;
+                transform: translateY(0) scale(1);
+            }
+
+            .release-title {
+                font-size: 12px;
+                font-weight: 800;
+                letter-spacing: 1.2px;
+                text-transform: uppercase;
+                color: rgba(236, 255, 240, 0.95);
+                margin-bottom: 12px;
+            }
+
+            .release-body.loading,
+            .release-body.error {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                min-height: 100px;
+                text-align: center;
+                font-size: 13px;
+                color: rgba(225, 255, 229, 0.8);
+            }
+
+            .release-card {
+                display: flex;
+                align-items: center;
+                gap: 12px;
+            }
+
+            .release-image-wrap {
+                width: 72px;
+                height: 72px;
+                border-radius: 18px;
+                background: radial-gradient(
+                    circle at 35% 30%,
+                    rgba(255, 235, 160, 0.18),
+                    rgba(255, 255, 255, 0.03)
+                );
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                border: 1px solid rgba(190, 255, 197, 0.12);
+                flex: 0 0 72px;
+                box-shadow: inset 0 0 18px rgba(125, 255, 149, 0.1);
+            }
+
+            .release-image {
+                width: 50px;
+                height: 50px;
+                object-fit: contain;
+                filter: drop-shadow(0 8px 12px rgba(0, 0, 0, 0.35));
+            }
+
+            .release-info {
+                min-width: 0;
+                flex: 1;
+            }
+
+            .release-name {
+                font-size: 24px;
+                font-weight: 800;
+                line-height: 0.95;
+                color: #f4fff6;
+                margin: 0 0 8px;
+                text-shadow: 0 0 14px rgba(165, 255, 181, 0.15);
+                word-break: break-word;
+            }
+
+            .release-row {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                gap: 8px;
+                padding: 7px 0;
+                border-top: 1px solid rgba(182, 255, 191, 0.08);
+                font-size: 12px;
+            }
+
+            .release-row:first-of-type {
+                border-top: 0;
+            }
+
+            .release-label {
+                color: rgba(210, 255, 218, 0.68);
+            }
+
+            .release-value {
+                color: #f5fff7;
+                font-weight: 700;
+                text-align: right;
+                white-space: nowrap;
+            }
+
+            .release-desc {
+                margin-top: 10px;
+                padding-top: 10px;
+                border-top: 1px solid rgba(182, 255, 191, 0.08);
+                font-size: 12px;
+                line-height: 1.45;
+                color: rgba(225, 255, 229, 0.77);
+            }
+
+            .brand-tag {
+                position: relative;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                align-self: center;
+                gap: 12px;
+                padding: 10px 18px;
+                min-height: 42px;
+                border: 1.5px solid var(--brand-outline);
+                border-radius: 999px;
+                background:
+                    radial-gradient(
+                        circle at top left,
+                        rgba(255, 227, 130, 0.14),
+                        transparent 40%
+                    ),
+                    linear-gradient(
+                        90deg,
+                        rgba(7, 35, 18, 0.45),
+                        rgba(124, 255, 146, 0.06)
+                    );
+                box-shadow:
+                    0 0 18px rgba(123, 255, 164, 0.15),
+                    0 0 20px rgba(255, 214, 82, 0.06),
+                    inset 0 0 18px rgba(255, 224, 120, 0.04);
+                z-index: 5;
+                animation: brandPulse 3.2s ease-in-out infinite;
+            }
+
+            .brand-small,
+            .brand-large {
+                color: var(--brand-main);
+                font-weight: 900;
+                line-height: 1;
+                letter-spacing: 1px;
+                text-shadow: 0 0 12px rgba(126, 255, 145, 0.35);
+                user-select: text;
+                white-space: nowrap;
+            }
+
+            .brand-small {
+                font-size: 1rem;
+            }
+
+            .brand-large {
+                font-size: 1.2rem;
+            }
+
+            .brand-small::before {
+                content: var(--right-tag-small);
+            }
+
+            .brand-large::before {
+                content: var(--right-tag-large);
+            }
+
+            .brand-arrow {
+                position: relative;
+                width: 32px;
+                height: 32px;
+                border-radius: 50%;
+                background: radial-gradient(
+                    circle at 30% 30%,
+                    #ffe48f,
+                    #d6a70b
+                );
+                box-shadow:
+                    0 0 18px rgba(255, 214, 82, 0.42),
+                    inset 0 0 10px rgba(255, 255, 255, 0.18);
+                flex: 0 0 32px;
+
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .brand-arrow::before {
+                content: "";
+                width: 8px;
+                height: 8px;
+                border-right: 4px solid white;
+                border-bottom: 4px solid white;
+                transform: rotate(-45deg);
+            }
+
+            .brand-tag::after {
+                content: "☘";
+                position: absolute;
+                right: 8px;
+                top: -8px;
+                font-size: 14px;
+                color: #beff7b;
+                opacity: 0.95;
+            }
+
+            .top-bands {
+                position: absolute;
+                left: 0;
+                top: 3.8%;
+                width: 340px;
+                height: 60px;
+                pointer-events: none;
+                opacity: 0.78;
+            }
+
+            .top-bands span {
+                display: block;
+                height: 5px;
+                margin: 8px 0;
+                background: linear-gradient(
+                    90deg,
+                    rgba(109, 255, 145, 0.96),
+                    rgba(255, 216, 90, 0.28),
+                    transparent 88%
+                );
+                filter: blur(1px);
+                animation: bandSlide 4.8s linear infinite;
+                border-radius: 999px;
+            }
+
+            .top-bands span:nth-child(2) {
+                width: 80%;
+                animation-delay: 0.35s;
+            }
+
+            .top-bands span:nth-child(3) {
+                width: 62%;
+                animation-delay: 0.65s;
+            }
+
+            .edit-note {
+                position: relative;
+                z-index: 10;
+                padding: 12px 14px;
+                border-radius: 16px;
+                background:
+                    radial-gradient(
+                        circle at top left,
+                        rgba(129, 255, 156, 0.08),
+                        transparent 42%
+                    ),
+                    rgba(5, 25, 13, 0.82);
+                border: 1px solid rgba(169, 255, 183, 0.14);
+                color: rgba(242, 255, 246, 0.92);
+                font-size: 12px;
+                letter-spacing: 0.3px;
+                backdrop-filter: blur(8px);
+                transition:
+                    opacity 0.35s ease,
+                    transform 0.35s ease;
+                width: 100%;
+                line-height: 1.5;
+                overflow-wrap: anywhere;
+                box-shadow:
+                    0 18px 34px rgba(0, 0, 0, 0.28),
+                    inset 0 0 18px rgba(129, 255, 156, 0.04);
+            }
+
+            .edit-note::before {
+                content: "☘";
+                margin-right: 8px;
+                color: #bbff71;
+                text-shadow: 0 0 12px rgba(164, 255, 122, 0.55);
+            }
+
+            .edit-note.tip-fade-out {
+                opacity: 0;
+                transform: translateY(6px);
+            }
+
+            .edit-note.tip-fade-in {
+                opacity: 1;
+                transform: translateY(0);
+            }
+
+            .floating-clovers {
+                position: absolute;
+                inset: 0;
+                pointer-events: none;
+                overflow: hidden;
+            }
+
+            .clover {
+                position: absolute;
+                font-size: clamp(18px, 2vw, 30px);
+                color: rgba(166, 255, 106, 0.95);
+                text-shadow:
+                    0 0 12px rgba(123, 255, 154, 0.55),
+                    0 0 22px rgba(255, 217, 94, 0.1);
+                animation: floatClover linear infinite;
+                opacity: 0.85;
+            }
+
+            .pot-glow {
+                position: absolute;
+                left: 14%;
+                bottom: 7%;
+                width: 280px;
+                height: 100px;
+                border-radius: 50%;
+                background: radial-gradient(
+                    circle,
+                    rgba(116, 255, 153, 0.16),
+                    rgba(255, 214, 82, 0.06),
+                    transparent 72%
+                );
+                filter: blur(18px);
+                pointer-events: none;
+                animation: potPulse 4s ease-in-out infinite;
+            }
+
+            @keyframes gridPulse {
+                0%,
+                100% {
+                    opacity: 0.74;
+                    transform: scale(1.1);
+                }
+                50% {
+                    opacity: 0.96;
+                    transform: scale(1.12);
+                }
+            }
+
+            @keyframes dashMove {
+                from {
+                    stroke-dashoffset: 0;
+                }
+                to {
+                    stroke-dashoffset: -420;
+                }
+            }
+
+            @keyframes dashMoveReverse {
+                from {
+                    stroke-dashoffset: 0;
+                }
+                to {
+                    stroke-dashoffset: 380;
+                }
+            }
+
+            @keyframes rainMove {
+                from {
+                    transform: translateY(-30px);
+                }
+                to {
+                    transform: translateY(60px);
+                }
+            }
+
+            @keyframes streakMove {
+                0% {
+                    transform: translateX(-10px);
+                    opacity: 0;
+                }
+                10% {
+                    opacity: 0.7;
+                }
+                100% {
+                    transform: translateX(110px);
+                    opacity: 0;
+                }
+            }
+
+            @keyframes floatBox {
+                0%,
+                100% {
+                    transform: translateY(-50%) translateX(0);
+                }
+                50% {
+                    transform: translateY(calc(-50% - 8px)) translateX(2px);
+                }
+            }
+
+            @keyframes brandPulse {
+                0%,
+                100% {
+                    box-shadow:
+                        0 0 14px rgba(123, 255, 164, 0.15),
+                        inset 0 0 18px rgba(255, 224, 120, 0.04);
+                }
+                50% {
+                    box-shadow:
+                        0 0 22px rgba(123, 255, 164, 0.24),
+                        0 0 28px rgba(255, 214, 82, 0.08),
+                        inset 0 0 24px rgba(255, 224, 120, 0.08);
+                }
+            }
+
+            @keyframes hudBlink {
+                0%,
+                100% {
+                    opacity: 0.35;
+                }
+                50% {
+                    opacity: 1;
+                }
+            }
+
+            @keyframes bandSlide {
+                0% {
+                    transform: translateX(-18px);
+                    opacity: 0.35;
+                }
+                50% {
+                    opacity: 0.95;
+                }
+                100% {
+                    transform: translateX(26px);
+                    opacity: 0.22;
+                }
+            }
+
+            @keyframes sparkleDrift {
+                0% {
+                    transform: translateY(0);
+                }
+                50% {
+                    transform: translateY(8px);
+                }
+                100% {
+                    transform: translateY(0);
+                }
+            }
+
+            @keyframes floatClover {
+                0% {
+                    transform: translateY(110vh) rotate(0deg) scale(0.9);
+                    opacity: 0;
+                }
+                10% {
+                    opacity: 0.85;
+                }
+                100% {
+                    transform: translateY(-16vh) rotate(240deg) scale(1.15);
+                    opacity: 0;
+                }
+            }
+
+            @keyframes cloverSpin {
+                0% {
+                    transform: rotate(0deg);
+                }
+                100% {
+                    transform: rotate(360deg);
+                }
+            }
+
+            @keyframes potPulse {
+                0%,
+                100% {
+                    transform: scale(1);
+                    opacity: 0.7;
+                }
+                50% {
+                    transform: scale(1.08);
+                    opacity: 1;
+                }
+            }
+
+            @media (max-width: 900px) {
+                .logo-card {
+                    width: 210px;
+                    height: 158px;
+                }
+
+                .logo-text .line1,
+                .logo-text .line2 {
+                    font-size: 3.2rem;
+                }
+            }
+
+            @media (max-width: 720px) {
+                .logo-card {
+                    left: 50%;
+                    top: 31%;
+                    transform: translate(-50%, -50%);
+                    width: 185px;
+                    height: 138px;
+                }
+
+                .logo-text .line1,
+                .logo-text .line2 {
+                    font-size: 2.8rem;
+                }
+
+                .right-stack {
+                    display: none;
+                }
+
+                @keyframes floatBox {
+                    0%,
+                    100% {
+                        transform: translate(-50%, -50%) translateX(0);
+                    }
+                    50% {
+                        transform: translate(-50%, calc(-50% - 8px))
+                            translateX(2px);
+                    }
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="scene">
+            <div class="grid"></div>
+            <div class="rain"></div>
+
+            <div class="floating-clovers" aria-hidden="true">
+                <span
+                    class="clover"
+                    style="
+                        left: 8%;
+                        animation-duration: 16s;
+                        animation-delay: -4s;
+                    "
+                    >☘</span
+                >
+                <span
+                    class="clover"
+                    style="
+                        left: 18%;
+                        animation-duration: 19s;
+                        animation-delay: -9s;
+                        font-size: 24px;
+                    "
+                    >☘</span
+                >
+                <span
+                    class="clover"
+                    style="
+                        left: 31%;
+                        animation-duration: 15s;
+                        animation-delay: -2s;
+                    "
+                    >☘</span
+                >
+                <span
+                    class="clover"
+                    style="
+                        left: 46%;
+                        animation-duration: 18s;
+                        animation-delay: -11s;
+                        font-size: 20px;
+                    "
+                    >☘</span
+                >
+                <span
+                    class="clover"
+                    style="
+                        left: 58%;
+                        animation-duration: 20s;
+                        animation-delay: -7s;
+                    "
+                    >☘</span
+                >
+                <span
+                    class="clover"
+                    style="
+                        left: 70%;
+                        animation-duration: 14s;
+                        animation-delay: -1s;
+                        font-size: 28px;
+                    "
+                    >☘</span
+                >
+                <span
+                    class="clover"
+                    style="
+                        left: 81%;
+                        animation-duration: 17s;
+                        animation-delay: -13s;
+                    "
+                    >☘</span
+                >
+                <span
+                    class="clover"
+                    style="
+                        left: 91%;
+                        animation-duration: 21s;
+                        animation-delay: -6s;
+                        font-size: 22px;
+                    "
+                    >☘</span
+                >
+            </div>
+
+            <div class="top-bands">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+
+            <div class="circuit">
+                <svg
+                    viewBox="0 0 1920 1080"
+                    preserveAspectRatio="none"
+                    aria-hidden="true"
+                >
+                    <path
+                        class="path-green"
+                        d="M 500 300 L 720 300 L 830 420 L 1240 420 L 1240 250 L 1540 250"
+                    />
+                    <path
+                        class="path-green"
+                        d="M 430 560 L 730 560 L 860 680 L 1290 680 L 1290 810 L 1770 810"
+                    />
+                    <path
+                        class="path-green"
+                        d="M 515 220 L 610 220 L 610 160 L 1120 160"
+                    />
+                    <path class="path-green" d="M 0 870 L 750 870 L 975 1030" />
+
+                    <path
+                        class="path-gold"
+                        d="M 880 330 L 1140 330 L 1320 650 L 1525 650 L 1635 790 L 1920 790"
+                    />
+                    <path
+                        class="path-gold"
+                        d="M 820 900 L 1020 900 L 1160 930"
+                    />
+                    <path class="path-gold" d="M 1400 500 L 1920 500" />
+
+                    <path
+                        class="path-soft"
+                        d="M 760 160 L 980 160 L 1250 500 L 1550 500"
+                    />
+                    <path
+                        class="path-soft"
+                        d="M 770 430 L 910 430 L 1030 560 L 1420 560"
+                    />
+                    <path
+                        class="path-soft"
+                        d="M 1320 0 L 1320 210 L 1680 210"
+                        opacity="0.35"
+                    />
+                    <path
+                        class="path-soft"
+                        d="M 0 490 L 690 490 L 810 620 L 1060 620"
+                        opacity="0.4"
+                    />
+
+                    <g class="hud-boxes" fill="rgba(108,255,145,0.58)">
+                        <rect x="430" y="120" width="30" height="35" />
+                        <rect x="430" y="170" width="30" height="35" />
+                        <rect x="430" y="220" width="30" height="35" />
+                        <rect x="430" y="270" width="30" height="35" />
+                        <rect x="430" y="320" width="30" height="35" />
+                        <rect x="430" y="370" width="30" height="35" />
+                        <rect x="430" y="420" width="30" height="35" />
+                        <rect x="430" y="470" width="30" height="35" />
+                        <rect x="430" y="520" width="30" height="35" />
+                        <rect x="430" y="570" width="30" height="35" />
+                    </g>
+
+                    <polygon
+                        points="495,178 555,178 495,235"
+                        fill="rgba(255,215,93,0.8)"
+                    />
+
+                    <g class="hud-dots" fill="rgba(173,255,102,0.72)">
+                        <circle cx="645" cy="890" r="9" />
+                        <circle cx="690" cy="890" r="9" />
+                        <circle cx="735" cy="890" r="9" />
+                        <circle cx="780" cy="890" r="9" />
+                        <circle cx="825" cy="890" r="9" />
+                    </g>
+
+                    <g class="hud-bars" fill="rgba(255,214,82,0.65)">
+                        <rect x="1310" y="640" width="28" height="4" />
+                        <rect x="1310" y="655" width="36" height="4" />
+                        <rect x="1310" y="670" width="22" height="4" />
+                        <rect x="1310" y="685" width="30" height="4" />
+                        <rect x="1310" y="700" width="40" height="4" />
+                        <rect x="1310" y="715" width="18" height="4" />
+                        <rect x="1310" y="730" width="34" height="4" />
+                        <rect x="1310" y="745" width="26" height="4" />
+                        <rect x="1310" y="760" width="20" height="4" />
+                        <rect x="1310" y="775" width="32" height="4" />
+                        <rect x="1310" y="790" width="24" height="4" />
+                        <rect x="1310" y="805" width="16" height="4" />
+                        <rect x="1310" y="820" width="28" height="4" />
+                        <rect x="1310" y="835" width="19" height="4" />
+                        <rect x="1310" y="850" width="31" height="4" />
+                        <rect x="1310" y="865" width="26" height="4" />
+                        <rect x="1310" y="880" width="14" height="4" />
+                    </g>
+
+                    <g class="coin-pips" fill="rgba(255,232,153,0.88)">
+                        <circle cx="1560" cy="250" r="6" />
+                        <circle cx="1586" cy="250" r="6" />
+                        <circle cx="1612" cy="250" r="6" />
+                    </g>
+                </svg>
+            </div>
+
+            <div class="pot-glow"></div>
+
+            <div
+                class="streak gold"
+                style="left: 2%; top: 9%; width: 220px; animation-delay: 0.2s"
+            ></div>
+            <div
+                class="streak green"
+                style="left: 37%; top: 36%; width: 280px; animation-delay: 1.3s"
+            ></div>
+            <div
+                class="streak gold"
+                style="left: 48%; top: 63%; width: 240px; animation-delay: 2.4s"
+            ></div>
+            <div
+                class="streak green"
+                style="left: 58%; top: 82%; width: 260px; animation-delay: 0.8s"
+            ></div>
+            <div
+                class="streak gold"
+                style="left: 74%; top: 90%; width: 210px; animation-delay: 1.8s"
+            ></div>
+            <div
+                class="streak green"
+                style="left: 78%; top: 52%; width: 300px; animation-delay: 3s"
+            ></div>
+
+            <div class="logo-card">
+                <div class="logo-frame">
+                    <span class="corner-node n1"></span>
+                    <span class="corner-node n2"></span>
+                    <span class="corner-node n3"></span>
+                    <span class="corner-node n4"></span>
+                    <span class="corner-node n5"></span>
+                    <span class="corner-node n6"></span>
+                    <div class="logo-text">
+                        <span class="line1"></span>
+                        <span class="line2"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="right-stack">
+                <div class="release-power-display" id="releasePowerDisplay">
+                    <div class="release-title">Lucky Latest Released Power</div>
+                    <div class="release-body loading" id="releasePowerBody">
+                        Loading latest release...
+                    </div>
+                </div>
+
+                <div class="brand-tag">
+                    <span class="brand-small"></span>
+                    <span class="brand-arrow"></span>
+                    <span class="brand-large"></span>
+                </div>
+
+                <div class="edit-note tip-fade-in" id="rotatingTip">
+                    Grab some luck and buy a bot with !buyabot
+                </div>
+            </div>
+        </div>
+
+        <script>
+            function setTheme({ bg, bgDark, brand, brand2, green, gold } = {}) {
+                const root = document.documentElement;
+                if (bg) root.style.setProperty("--bg-main", bg);
+                if (bgDark) root.style.setProperty("--bg-dark", bgDark);
+                if (brand) root.style.setProperty("--brand-main", brand);
+                if (brand2) root.style.setProperty("--brand-accent", brand2);
+                if (green) {
+                    root.style.setProperty("--line-green", green);
+                    root.style.setProperty("--glow-green", green);
+                }
+                if (gold) {
+                    root.style.setProperty("--line-gold", gold);
+                    root.style.setProperty("--glow-gold", gold);
+                }
+            }
+
+            function setText({ left1, left2, small, large } = {}) {
+                const root = document.documentElement;
+                if (left1)
+                    root.style.setProperty("--left-logo-line-1", `'${left1}'`);
+                if (left2)
+                    root.style.setProperty("--left-logo-line-2", `'${left2}'`);
+                if (small)
+                    root.style.setProperty("--right-tag-small", `'${small}'`);
+                if (large)
+                    root.style.setProperty("--right-tag-large", `'${large}'`);
+            }
+
+            window.setTheme = setTheme;
+            window.setText = setText;
+
+            const tips = [
+                "Grab some luck and buy a bot with !buyabot",
+                "Need help? Do !help if no staff are around.",
+                "Customize your lucky bot settings at https://pythbots.com",
+                "Start your bot with !start and stop it with !kill",
+                "Stay updated with the latest PythBots tools at https://pythbots.com",
+            ];
+
+            let currentTipIndex = 0;
+            const tipElement = document.getElementById("rotatingTip");
+            const tipIntervalMs = 30000;
+            const fadeDurationMs = 350;
+
+            function showTip(index) {
+                if (!tipElement || !tips.length) return;
+
+                tipElement.classList.remove("tip-fade-in");
+                tipElement.classList.add("tip-fade-out");
+
+                setTimeout(() => {
+                    tipElement.innerHTML = tips[index];
+                    tipElement.classList.remove("tip-fade-out");
+                    tipElement.classList.add("tip-fade-in");
+                }, fadeDurationMs);
+            }
+
+            function startTipRotation() {
+                if (!tipElement || tips.length === 0) return;
+                tipElement.innerHTML = tips[0];
+                if (tips.length === 1) return;
+
+                setInterval(() => {
+                    currentTipIndex = (currentTipIndex + 1) % tips.length;
+                    showTip(currentTipIndex);
+                }, tipIntervalMs);
+            }
+
+            const RELEASE_API_URL =
+                "https://tradexat.com/modcp/api.php?action=powers&released=1&desc=1";
+            const releasePowerDisplay = document.getElementById(
+                "releasePowerDisplay",
+            );
+            const releasePowerBody =
+                document.getElementById("releasePowerBody");
+            const queryParams = new URLSearchParams(window.location.search);
+            const showRelease = queryParams.has("release");
+
+            function escapeHtml(value) {
+                return String(value ?? "")
+                    .replace(/&/g, "&amp;")
+                    .replace(/</g, "&lt;")
+                    .replace(/>/g, "&gt;")
+                    .replace(/"/g, "&quot;")
+                    .replace(/'/g, "&#39;");
+            }
+
+            function getLatestPowerEntry(powers) {
+                const ids = Object.keys(powers || {})
+                    .map(Number)
+                    .filter(Number.isFinite)
+                    .sort((a, b) => b - a);
+
+                if (!ids.length) return null;
+                const id = ids[0];
+                return { id, power: powers[id] || powers[String(id)] };
+            }
+
+            function getPowerImage(power) {
+                return `https://gs.xat.com/a_(${encodeURIComponent(power.name)})_80`;
+            }
+
+            function getPowerStatus(power) {
+                return Number(power.limited) === 1 ? "Limited" : "Available";
+            }
+
+            function getPowerStore(power) {
+                return power.store || "N/A";
+            }
+
+            function renderReleaseLoading() {
+                releasePowerBody.className = "release-body loading";
+                releasePowerBody.textContent = "Loading latest release...";
+            }
+
+            function renderReleaseError(message) {
+                releasePowerBody.className = "release-body error";
+                releasePowerBody.textContent = message;
+            }
+
+            function renderReleasePower(id, power) {
+                const desc =
+                    power.descr || power.title || "No description available.";
+
+                releasePowerBody.className = "release-body";
+                releasePowerBody.innerHTML = `
+                    <div class="release-card">
+                        <div class="release-image-wrap">
+                            <img class="release-image" src="${getPowerImage(power)}" alt="${escapeHtml(power.name)}" onerror="this.style.opacity='0.25'" />
+                        </div>
+                        <div class="release-info">
+                            <h3 class="release-name">${escapeHtml(power.name)}</h3>
+                            <div class="release-row">
+                                <span class="release-label">Price In Store</span>
+                                <span class="release-value">${escapeHtml(getPowerStore(power))}</span>
+                            </div>
+                            <div class="release-row">
+                                <span class="release-label">Status</span>
+                                <span class="release-value">${escapeHtml(getPowerStatus(power))}</span>
+                            </div>
+                            <div class="release-row">
+                                <span class="release-label">Power ID</span>
+                                <span class="release-value">${escapeHtml(id)}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="release-desc">${escapeHtml(desc)}</div>
+                `;
+            }
+
+            async function loadReleasedPower() {
+                renderReleaseLoading();
+
+                try {
+                    const res = await fetch(RELEASE_API_URL, {
+                        method: "GET",
+                        headers: { Accept: "application/json" },
+                    });
+
+                    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+                    const data = await res.json();
+                    if (!data || !data.powers)
+                        throw new Error("Invalid API response");
+
+                    const latest = getLatestPowerEntry(data.powers);
+                    if (!latest || !latest.power)
+                        throw new Error("No released powers found");
+
+                    renderReleasePower(latest.id, latest.power);
+                } catch (error) {
+                    renderReleaseError(
+                        `Could not load released power: ${error.message}`,
+                    );
+                }
+            }
+
+            if (showRelease) {
+                releasePowerDisplay.classList.add("show");
+                loadReleasedPower();
+            }
+
+            startTipRotation();
+        </script>
+    </body>
+</html>
