@@ -28,7 +28,6 @@
                 --right-tag-small: "XAT";
                 --right-tag-large: "PYTHBOTS";
 
-                /* Safe area where center/chat begins */
                 --chat-safe-right-start: 1180px;
             }
 
@@ -243,18 +242,10 @@
                 animation: hudBlink 2.8s ease-in-out infinite;
             }
 
-            .hud-bars rect:nth-child(2) {
-                animation-delay: 0.2s;
-            }
-            .hud-bars rect:nth-child(3) {
-                animation-delay: 0.4s;
-            }
-            .hud-bars rect:nth-child(4) {
-                animation-delay: 0.6s;
-            }
-            .hud-bars rect:nth-child(5) {
-                animation-delay: 0.8s;
-            }
+            .hud-bars rect:nth-child(2) { animation-delay: 0.2s; }
+            .hud-bars rect:nth-child(3) { animation-delay: 0.4s; }
+            .hud-bars rect:nth-child(4) { animation-delay: 0.6s; }
+            .hud-bars rect:nth-child(5) { animation-delay: 0.8s; }
 
             .streak {
                 position: absolute;
@@ -357,30 +348,12 @@
                 z-index: 2;
             }
 
-            .n1 {
-                top: -6px;
-                left: 28px;
-            }
-            .n2 {
-                top: -6px;
-                left: 50px;
-            }
-            .n3 {
-                top: -6px;
-                left: 72px;
-            }
-            .n4 {
-                right: -6px;
-                bottom: 22px;
-            }
-            .n5 {
-                right: 18px;
-                bottom: -6px;
-            }
-            .n6 {
-                right: 40px;
-                bottom: -6px;
-            }
+            .n1 { top: -6px; left: 28px; }
+            .n2 { top: -6px; left: 50px; }
+            .n3 { top: -6px; left: 72px; }
+            .n4 { right: -6px; bottom: 22px; }
+            .n5 { right: 18px; bottom: -6px; }
+            .n6 { right: 40px; bottom: -6px; }
 
             .logo-text {
                 position: absolute;
@@ -408,14 +381,9 @@
                 font-size: 4rem;
             }
 
-            .logo-text .line1::before {
-                content: var(--left-logo-line-1);
-            }
-            .logo-text .line2::before {
-                content: var(--left-logo-line-2);
-            }
+            .logo-text .line1::before { content: var(--left-logo-line-1); }
+            .logo-text .line2::before { content: var(--left-logo-line-2); }
 
-            /* RIGHT SIDE ONLY */
             .right-stack {
                 position: absolute;
                 top: clamp(180px, 26vh, 300px);
@@ -423,39 +391,25 @@
                 width: clamp(220px, 18vw, 330px);
                 max-width: 330px;
                 z-index: 9;
-
                 display: flex;
                 flex-direction: column;
                 gap: 14px;
                 align-items: stretch;
             }
 
-            .right-stack > * {
-                width: 100%;
-            }
+            .right-stack > * { width: 100%; }
 
-            /* if the screen is too small, keep widget out of the middle entirely */
             @media (max-width: 1510px) {
-                .right-stack {
-                    width: clamp(200px, 16vw, 280px);
-                }
+                .right-stack { width: clamp(200px, 16vw, 280px); }
             }
 
             @media (max-width: 1400px) {
-                .right-stack {
-                    width: 240px;
-                }
-
-                .release-name {
-                    font-size: 20px;
-                }
+                .right-stack { width: 240px; }
+                .release-name { font-size: 20px; }
             }
 
-            /* hard stop: hide the right widget instead of letting it enter center */
             @media (max-width: 1330px) {
-                .right-stack {
-                    display: none;
-                }
+                .right-stack { display: none; }
             }
 
             .release-power-display {
@@ -562,13 +516,9 @@
                 font-size: 12px;
             }
 
-            .release-row:first-of-type {
-                border-top: 0;
-            }
+            .release-row:first-of-type { border-top: 0; }
 
-            .release-label {
-                color: rgba(201, 216, 255, 0.72);
-            }
+            .release-label { color: rgba(201, 216, 255, 0.72); }
 
             .release-value {
                 color: #f2f7ff;
@@ -620,31 +570,17 @@
                 white-space: nowrap;
             }
 
-            .brand-small {
-                font-size: 1rem;
-            }
-
-            .brand-large {
-                font-size: 1.2rem;
-            }
-
-            .brand-small::before {
-                content: var(--right-tag-small);
-            }
-            .brand-large::before {
-                content: var(--right-tag-large);
-            }
+            .brand-small { font-size: 1rem; }
+            .brand-large { font-size: 1.2rem; }
+            .brand-small::before { content: var(--right-tag-small); }
+            .brand-large::before { content: var(--right-tag-large); }
 
             .brand-arrow {
                 position: relative;
                 width: 32px;
                 height: 32px;
                 border-radius: 50%;
-                background: radial-gradient(
-                    circle at 30% 30%,
-                    #ff548f,
-                    #f31f47
-                );
+                background: radial-gradient(circle at 30% 30%, #ff548f, #f31f47);
                 box-shadow: 0 0 16px rgba(255, 50, 96, 0.42);
                 flex: 0 0 32px;
             }
@@ -652,13 +588,13 @@
             .brand-arrow::before {
                 content: "";
                 position: absolute;
-                left: 10px;
-                top: 7px;
+                left: 50%;
+                top: 50%;
                 width: 8px;
                 height: 8px;
                 border-right: 4px solid white;
                 border-bottom: 4px solid white;
-                transform: rotate(-45deg);
+                transform: translate(-60%, -50%) rotate(-45deg);
             }
 
             .top-bands {
@@ -685,15 +621,8 @@
                 animation: bandSlide 4.8s linear infinite;
             }
 
-            .top-bands span:nth-child(2) {
-                width: 80%;
-                animation-delay: 0.35s;
-            }
-
-            .top-bands span:nth-child(3) {
-                width: 62%;
-                animation-delay: 0.65s;
-            }
+            .top-bands span:nth-child(2) { width: 80%; animation-delay: 0.35s; }
+            .top-bands span:nth-child(3) { width: 62%; animation-delay: 0.65s; }
 
             .edit-note {
                 position: relative;
@@ -725,71 +654,38 @@
             }
 
             @keyframes gridPulse {
-                0%,
-                100% {
-                    opacity: 0.72;
-                    transform: scale(1.1);
-                }
-                50% {
-                    opacity: 0.92;
-                    transform: scale(1.12);
-                }
+                0%, 100% { opacity: 0.72; transform: scale(1.1); }
+                50% { opacity: 0.92; transform: scale(1.12); }
             }
 
             @keyframes dashMove {
-                from {
-                    stroke-dashoffset: 0;
-                }
-                to {
-                    stroke-dashoffset: -420;
-                }
+                from { stroke-dashoffset: 0; }
+                to { stroke-dashoffset: -420; }
             }
 
             @keyframes dashMoveReverse {
-                from {
-                    stroke-dashoffset: 0;
-                }
-                to {
-                    stroke-dashoffset: 380;
-                }
+                from { stroke-dashoffset: 0; }
+                to { stroke-dashoffset: 380; }
             }
 
             @keyframes rainMove {
-                from {
-                    transform: translateY(-30px);
-                }
-                to {
-                    transform: translateY(60px);
-                }
+                from { transform: translateY(-30px); }
+                to { transform: translateY(60px); }
             }
 
             @keyframes streakMove {
-                0% {
-                    transform: translateX(-10px);
-                    opacity: 0;
-                }
-                10% {
-                    opacity: 0.65;
-                }
-                100% {
-                    transform: translateX(110px);
-                    opacity: 0;
-                }
+                0% { transform: translateX(-10px); opacity: 0; }
+                10% { opacity: 0.65; }
+                100% { transform: translateX(110px); opacity: 0; }
             }
 
             @keyframes floatBox {
-                0%,
-                100% {
-                    transform: translateY(-50%) translateX(0);
-                }
-                50% {
-                    transform: translateY(calc(-50% - 8px)) translateX(2px);
-                }
+                0%, 100% { transform: translateY(-50%) translateX(0); }
+                50% { transform: translateY(calc(-50% - 8px)) translateX(2px); }
             }
 
             @keyframes brandPulse {
-                0%,
-                100% {
+                0%, 100% {
                     box-shadow:
                         0 0 12px rgba(255, 40, 100, 0.18),
                         inset 0 0 18px rgba(255, 58, 130, 0.05);
@@ -802,39 +698,19 @@
             }
 
             @keyframes hudBlink {
-                0%,
-                100% {
-                    opacity: 0.35;
-                }
-                50% {
-                    opacity: 1;
-                }
+                0%, 100% { opacity: 0.35; }
+                50% { opacity: 1; }
             }
 
             @keyframes bandSlide {
-                0% {
-                    transform: translateX(-18px);
-                    opacity: 0.35;
-                }
-                50% {
-                    opacity: 0.9;
-                }
-                100% {
-                    transform: translateX(26px);
-                    opacity: 0.2;
-                }
+                0% { transform: translateX(-18px); opacity: 0.35; }
+                50% { opacity: 0.9; }
+                100% { transform: translateX(26px); opacity: 0.2; }
             }
 
             @media (max-width: 900px) {
-                .logo-card {
-                    width: 200px;
-                    height: 150px;
-                }
-
-                .logo-text .line1,
-                .logo-text .line2 {
-                    font-size: 3.2rem;
-                }
+                .logo-card { width: 200px; height: 150px; }
+                .logo-text .line1, .logo-text .line2 { font-size: 3.2rem; }
             }
 
             @media (max-width: 720px) {
@@ -845,26 +721,12 @@
                     width: 180px;
                     height: 135px;
                 }
-
-                .logo-text .line1,
-                .logo-text .line2 {
-                    font-size: 2.8rem;
-                }
-
-                /* mobile fallback */
-                .right-stack {
-                    display: none;
-                }
+                .logo-text .line1, .logo-text .line2 { font-size: 2.8rem; }
+                .right-stack { display: none; }
 
                 @keyframes floatBox {
-                    0%,
-                    100% {
-                        transform: translate(-50%, -50%) translateX(0);
-                    }
-                    50% {
-                        transform: translate(-50%, calc(-50% - 8px))
-                            translateX(2px);
-                    }
+                    0%, 100% { transform: translate(-50%, -50%) translateX(0); }
+                    50% { transform: translate(-50%, calc(-50% - 8px)) translateX(2px); }
                 }
             }
         </style>
@@ -881,53 +743,20 @@
             </div>
 
             <div class="circuit">
-                <svg
-                    viewBox="0 0 1920 1080"
-                    preserveAspectRatio="none"
-                    aria-hidden="true"
-                >
-                    <path
-                        class="path-blue"
-                        d="M 500 300 L 720 300 L 830 420 L 1240 420 L 1240 250 L 1540 250"
-                    />
-                    <path
-                        class="path-blue"
-                        d="M 430 560 L 730 560 L 860 680 L 1290 680 L 1290 810 L 1770 810"
-                    />
-                    <path
-                        class="path-blue"
-                        d="M 515 220 L 610 220 L 610 160 L 1120 160"
-                    />
+                <svg viewBox="0 0 1920 1080" preserveAspectRatio="none" aria-hidden="true">
+                    <path class="path-blue" d="M 500 300 L 720 300 L 830 420 L 1240 420 L 1240 250 L 1540 250" />
+                    <path class="path-blue" d="M 430 560 L 730 560 L 860 680 L 1290 680 L 1290 810 L 1770 810" />
+                    <path class="path-blue" d="M 515 220 L 610 220 L 610 160 L 1120 160" />
                     <path class="path-blue" d="M 0 870 L 750 870 L 975 1030" />
 
-                    <path
-                        class="path-pink"
-                        d="M 880 330 L 1140 330 L 1320 650 L 1525 650 L 1635 790 L 1920 790"
-                    />
-                    <path
-                        class="path-pink"
-                        d="M 820 900 L 1020 900 L 1160 930"
-                    />
+                    <path class="path-pink" d="M 880 330 L 1140 330 L 1320 650 L 1525 650 L 1635 790 L 1920 790" />
+                    <path class="path-pink" d="M 820 900 L 1020 900 L 1160 930" />
                     <path class="path-pink" d="M 1400 500 L 1920 500" />
 
-                    <path
-                        class="path-soft"
-                        d="M 760 160 L 980 160 L 1250 500 L 1550 500"
-                    />
-                    <path
-                        class="path-soft"
-                        d="M 770 430 L 910 430 L 1030 560 L 1420 560"
-                    />
-                    <path
-                        class="path-soft"
-                        d="M 1320 0 L 1320 210 L 1680 210"
-                        opacity="0.35"
-                    />
-                    <path
-                        class="path-soft"
-                        d="M 0 490 L 690 490 L 810 620 L 1060 620"
-                        opacity="0.4"
-                    />
+                    <path class="path-soft" d="M 760 160 L 980 160 L 1250 500 L 1550 500" />
+                    <path class="path-soft" d="M 770 430 L 910 430 L 1030 560 L 1420 560" />
+                    <path class="path-soft" d="M 1320 0 L 1320 210 L 1680 210" opacity="0.35" />
+                    <path class="path-soft" d="M 0 490 L 690 490 L 810 620 L 1060 620" opacity="0.4" />
 
                     <g class="hud-boxes" fill="rgba(170, 24, 94, 0.6)">
                         <rect x="430" y="120" width="30" height="35" />
@@ -942,10 +771,7 @@
                         <rect x="430" y="570" width="30" height="35" />
                     </g>
 
-                    <polygon
-                        points="495,178 555,178 495,235"
-                        fill="rgba(176,23,92,0.75)"
-                    />
+                    <polygon points="495,178 555,178 495,235" fill="rgba(176,23,92,0.75)" />
 
                     <g class="hud-dots" fill="rgba(0, 121, 255, 0.65)">
                         <circle cx="645" cy="890" r="9" />
@@ -977,30 +803,12 @@
                 </svg>
             </div>
 
-            <div
-                class="streak pink"
-                style="left: 2%; top: 9%; width: 220px; animation-delay: 0.2s"
-            ></div>
-            <div
-                class="streak pink"
-                style="left: 37%; top: 36%; width: 280px; animation-delay: 1.3s"
-            ></div>
-            <div
-                class="streak pink"
-                style="left: 48%; top: 63%; width: 240px; animation-delay: 2.4s"
-            ></div>
-            <div
-                class="streak pink"
-                style="left: 58%; top: 82%; width: 260px; animation-delay: 0.8s"
-            ></div>
-            <div
-                class="streak blue"
-                style="left: 74%; top: 90%; width: 210px; animation-delay: 1.8s"
-            ></div>
-            <div
-                class="streak pink"
-                style="left: 78%; top: 52%; width: 300px; animation-delay: 3s"
-            ></div>
+            <div class="streak pink" style="left: 2%; top: 9%; width: 220px; animation-delay: 0.2s"></div>
+            <div class="streak pink" style="left: 37%; top: 36%; width: 280px; animation-delay: 1.3s"></div>
+            <div class="streak pink" style="left: 48%; top: 63%; width: 240px; animation-delay: 2.4s"></div>
+            <div class="streak pink" style="left: 58%; top: 82%; width: 260px; animation-delay: 0.8s"></div>
+            <div class="streak blue" style="left: 74%; top: 90%; width: 210px; animation-delay: 1.8s"></div>
+            <div class="streak pink" style="left: 78%; top: 52%; width: 300px; animation-delay: 3s"></div>
 
             <div class="logo-card">
                 <div class="logo-frame">
@@ -1056,14 +864,10 @@
 
             function setText({ left1, left2, small, large } = {}) {
                 const root = document.documentElement;
-                if (left1)
-                    root.style.setProperty("--left-logo-line-1", `'${left1}'`);
-                if (left2)
-                    root.style.setProperty("--left-logo-line-2", `'${left2}'`);
-                if (small)
-                    root.style.setProperty("--right-tag-small", `'${small}'`);
-                if (large)
-                    root.style.setProperty("--right-tag-large", `'${large}'`);
+                if (left1) root.style.setProperty("--left-logo-line-1", `'${left1}'`);
+                if (left2) root.style.setProperty("--left-logo-line-2", `'${left2}'`);
+                if (small) root.style.setProperty("--right-tag-small", `'${small}'`);
+                if (large) root.style.setProperty("--right-tag-large", `'${large}'`);
             }
 
             window.setTheme = setTheme;
@@ -1084,10 +888,8 @@
 
             function showTip(index) {
                 if (!tipElement || !tips.length) return;
-
                 tipElement.classList.remove("tip-fade-in");
                 tipElement.classList.add("tip-fade-out");
-
                 setTimeout(() => {
                     tipElement.textContent = tips[index];
                     tipElement.classList.remove("tip-fade-out");
@@ -1099,20 +901,15 @@
                 if (!tipElement || tips.length === 0) return;
                 tipElement.textContent = tips[0];
                 if (tips.length === 1) return;
-
                 setInterval(() => {
                     currentTipIndex = (currentTipIndex + 1) % tips.length;
                     showTip(currentTipIndex);
                 }, tipIntervalMs);
             }
 
-            const RELEASE_API_URL =
-                "https://tradexat.com/modcp/api.php?action=powers&released=1&desc=1";
-            const releasePowerDisplay = document.getElementById(
-                "releasePowerDisplay",
-            );
-            const releasePowerBody =
-                document.getElementById("releasePowerBody");
+            const RELEASE_API_URL = "https://api.xatblog.net/latest";
+            const releasePowerDisplay = document.getElementById("releasePowerDisplay");
+            const releasePowerBody = document.getElementById("releasePowerBody");
             const queryParams = new URLSearchParams(window.location.search);
             const showRelease = queryParams.has("release");
 
@@ -1126,14 +923,9 @@
             }
 
             function getLatestPowerEntry(powers) {
-                const ids = Object.keys(powers || {})
-                    .map(Number)
-                    .filter(Number.isFinite)
-                    .sort((a, b) => b - a);
-
-                if (!ids.length) return null;
-                const id = ids[0];
-                return { id, power: powers[id] || powers[String(id)] };
+                if (!Array.isArray(powers) || !powers.length) return null;
+                const p = powers[0];
+                return { id: p.id, power: p };
             }
 
             function getPowerImage(power) {
@@ -1141,11 +933,11 @@
             }
 
             function getPowerStatus(power) {
-                return Number(power.limited) === 1 ? "Limited" : "Available";
+                return power.status === "limited" ? "Limited" : "Available";
             }
 
             function getPowerStore(power) {
-                return power.store || "N/A";
+                return (power.prices && power.prices.store) || "N/A";
             }
 
             function renderReleaseLoading() {
@@ -1160,39 +952,29 @@
 
             function renderReleasePower(id, power) {
                 const desc =
-                    power.descr || power.title || "No description available.";
+                    (power.description && power.description.long) ||
+                    (power.description && power.description.short) ||
+                    "No description available.";
 
                 releasePowerBody.className = "release-body";
                 releasePowerBody.innerHTML = `
                     <div class="release-card">
                         <div class="release-image-wrap">
-                            <img class="release-image" src="${getPowerImage(
-                                power,
-                            )}" alt="${escapeHtml(
-                                power.name,
-                            )}" onerror="this.style.opacity='0.25'" />
+                            <img class="release-image" src="${getPowerImage(power)}" alt="${escapeHtml(power.name)}" onerror="this.style.opacity='0.25'" />
                         </div>
                         <div class="release-info">
-                            <h3 class="release-name">${escapeHtml(
-                                power.name,
-                            )}</h3>
+                            <h3 class="release-name">${escapeHtml(power.name)}</h3>
                             <div class="release-row">
                                 <span class="release-label">Price In Store</span>
-                                <span class="release-value">${escapeHtml(
-                                    getPowerStore(power),
-                                )}</span>
+                                <span class="release-value">${escapeHtml(getPowerStore(power))}</span>
                             </div>
                             <div class="release-row">
                                 <span class="release-label">Status</span>
-                                <span class="release-value">${escapeHtml(
-                                    getPowerStatus(power),
-                                )}</span>
+                                <span class="release-value">${escapeHtml(getPowerStatus(power))}</span>
                             </div>
                             <div class="release-row">
                                 <span class="release-label">Power ID</span>
-                                <span class="release-value">${escapeHtml(
-                                    id,
-                                )}</span>
+                                <span class="release-value">${escapeHtml(id)}</span>
                             </div>
                         </div>
                     </div>
@@ -1202,27 +984,21 @@
 
             async function loadReleasedPower() {
                 renderReleaseLoading();
-
                 try {
                     const res = await fetch(RELEASE_API_URL, {
                         method: "GET",
                         headers: { Accept: "application/json" },
                     });
-
                     if (!res.ok) throw new Error(`HTTP ${res.status}`);
                     const data = await res.json();
-                    if (!data || !data.powers)
-                        throw new Error("Invalid API response");
+                    if (!data || !Array.isArray(data.powers)) throw new Error("Invalid API response");
 
                     const latest = getLatestPowerEntry(data.powers);
-                    if (!latest || !latest.power)
-                        throw new Error("No released powers found");
+                    if (!latest || !latest.power) throw new Error("No released powers found");
 
                     renderReleasePower(latest.id, latest.power);
                 } catch (error) {
-                    renderReleaseError(
-                        `Could not load released power: ${error.message}`,
-                    );
+                    renderReleaseError(`Could not load released power: ${error.message}`);
                 }
             }
 
