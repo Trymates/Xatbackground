@@ -536,6 +536,77 @@
                 text-transform: uppercase;
                 color: rgba(228, 236, 255, 0.94);
                 margin-bottom: 12px;
+                transition: margin-bottom 0.35s ease;
+            }
+
+            /* compact mode when slideshow is open */
+            .release-power-display.compact {
+                padding: 10px 14px;
+            }
+
+            .release-power-display.compact .release-title {
+                margin-bottom: 8px;
+            }
+
+            .release-power-display.compact .release-body {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+            }
+
+            .release-power-display.compact .release-card {
+                flex-direction: row;
+                align-items: center;
+                gap: 10px;
+                flex: 1;
+            }
+
+            .release-power-display.compact .release-image-wrap {
+                width: 44px;
+                height: 44px;
+                border-radius: 10px;
+                flex: 0 0 44px;
+            }
+
+            .release-power-display.compact .release-image {
+                width: 32px;
+                height: 32px;
+            }
+
+            .release-power-display.compact .release-name {
+                font-size: 16px;
+                margin: 0;
+            }
+
+            .release-power-display.compact .release-row,
+            .release-power-display.compact .release-desc {
+                display: none;
+            }
+
+            .release-power-display.compact .release-info {
+                display: flex;
+                align-items: center;
+            }
+
+            /* tip box transition */
+            .edit-note {
+                transition:
+                    opacity 0.35s ease,
+                    transform 0.35s ease,
+                    max-height 0.4s ease,
+                    padding 0.4s ease,
+                    margin 0.4s ease;
+                max-height: 60px;
+                overflow: hidden;
+            }
+
+            .edit-note.tip-hidden {
+                max-height: 0 !important;
+                opacity: 0 !important;
+                padding-top: 0 !important;
+                padding-bottom: 0 !important;
+                margin-top: 0 !important;
+                pointer-events: none;
             }
 
             .release-body.loading,
@@ -1155,6 +1226,11 @@
                 ssRunning = true;
                 ssCurrent = 0;
 
+                // compact the power box + hide tip
+                releasePowerDisplay.classList.add("compact");
+                const tipEl = document.getElementById("rotatingTip");
+                if (tipEl) tipEl.classList.add("tip-hidden");
+
                 ssPanel.classList.add("ss-show");
                 ssShowSlide(ssCurrent);
 
@@ -1167,6 +1243,9 @@
                         ssTimer = setTimeout(() => {
                             ssPanel.classList.remove("ss-show");
                             setTimeout(() => {
+                                // restore power box + tip
+                                releasePowerDisplay.classList.remove("compact");
+                                if (tipEl) tipEl.classList.remove("tip-hidden");
                                 ssRunning = false;
                                 ssTimer = setTimeout(ssRunShow, 60000);
                             }, 550);
