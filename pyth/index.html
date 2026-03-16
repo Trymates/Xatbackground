@@ -412,6 +412,93 @@
                 .right-stack { display: none; }
             }
 
+            /* Smiley slideshow panel */
+            .smiley-slideshow {
+                border-radius: 18px;
+                padding: 0 16px;
+                background: linear-gradient(180deg, rgba(12,24,92,0.86), rgba(6,12,45,0.9));
+                border: 1px solid rgba(255,255,255,0.12);
+                box-shadow: 0 22px 50px rgba(0,0,0,0.32), inset 0 1px 0 rgba(255,255,255,0.06);
+                backdrop-filter: blur(12px);
+                color: #eef4ff;
+                overflow: hidden;
+                max-height: 0;
+                opacity: 0;
+                transform: translateY(12px);
+                transition:
+                    max-height 0.5s cubic-bezier(0.4,0,0.2,1),
+                    opacity 0.4s ease,
+                    padding 0.4s ease,
+                    transform 0.4s ease;
+                pointer-events: none;
+            }
+
+            .smiley-slideshow.ss-show {
+                max-height: 200px;
+                opacity: 1;
+                padding-top: 14px;
+                padding-bottom: 14px;
+                transform: translateY(0);
+                pointer-events: auto;
+            }
+
+            .ss-title {
+                font-size: 11px;
+                font-weight: 800;
+                letter-spacing: 1px;
+                text-transform: uppercase;
+                color: rgba(228,236,255,0.75);
+                margin-bottom: 10px;
+            }
+
+            .ss-stage {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 6px;
+                min-height: 100px;
+                justify-content: center;
+            }
+
+            .ss-img {
+                width: 80px;
+                height: 80px;
+                object-fit: contain;
+                filter: drop-shadow(0 4px 12px rgba(0,0,0,0.4));
+                transition: opacity 0.3s ease, transform 0.3s ease;
+            }
+
+            .ss-img.ss-fx-out { opacity: 0; transform: translateX(-18px); }
+            .ss-img.ss-fx-in  { opacity: 1; transform: translateX(0); }
+
+            .ss-label {
+                font-size: 12px;
+                font-weight: 700;
+                color: rgba(200,220,255,0.9);
+                letter-spacing: 0.5px;
+                transition: opacity 0.3s ease;
+            }
+
+            .ss-label.ss-fx-out { opacity: 0; }
+            .ss-label.ss-fx-in  { opacity: 1; }
+
+            .ss-dots {
+                display: flex;
+                gap: 5px;
+                justify-content: center;
+                margin-top: 8px;
+            }
+
+            .ss-dot {
+                width: 5px;
+                height: 5px;
+                border-radius: 50%;
+                background: rgba(255,255,255,0.22);
+                transition: background 0.3s ease;
+            }
+
+            .ss-dot.active { background: rgba(255,255,255,0.88); }
+
             .release-power-display {
                 min-height: auto;
                 border-radius: 18px;
@@ -826,6 +913,15 @@
             </div>
 
             <div class="right-stack">
+                <div class="smiley-slideshow" id="smileySlideshow">
+                    <div class="ss-title">Power Smilies</div>
+                    <div class="ss-stage">
+                        <img class="ss-img ss-fx-in" id="ssImg" src="" alt="" />
+                        <div class="ss-label ss-fx-in" id="ssLabel"></div>
+                    </div>
+                    <div class="ss-dots" id="ssDots"></div>
+                </div>
+
                 <div class="release-power-display" id="releasePowerDisplay">
                     <div class="release-title">Latest Released Power</div>
                     <div class="release-body loading" id="releasePowerBody">
@@ -951,6 +1047,10 @@
             }
 
             function renderReleasePower(id, power) {
+                // kick off smiley slideshow with this power's smilies
+                if (power.smilies && power.smilies.length) {
+                    ssInit(power.smilies);
+                }
                 const desc =
                     (power.description && power.description.long) ||
                     (power.description && power.description.short) ||
@@ -1005,6 +1105,84 @@
             if (showRelease) {
                 releasePowerDisplay.classList.add("show");
                 loadReleasedPower();
+            }
+
+
+            // ── Smiley Slideshow ─────────────────────────────────────────
+            const ssPanel  = document.getElementById("smileySlideshow");
+            const ssImg    = document.getElementById("ssImg");
+            const ssLabel  = document.getElementById("ssLabel");
+            const ssDotsEl = document.getElementById("ssDots");
+
+            let ssSmilies  = [];
+            let ssCurrent  = 0;
+            let ssTimer    = null;
+            let ssRunning  = false;
+
+            function ssSetDots(count, active) {
+                ssDotsEl.innerHTML = "";
+                for (let i = 0; i < count; i++) {
+                    const d = document.createElement("span");
+                    d.className = "ss-dot" + (i === active ? " active" : "");
+                    ssDotsEl.appendChild(d);
+                }
+            }
+
+            function ssShowSlide(index, cb) {
+                ssImg.classList.remove("ss-fx-in");
+                ssImg.classList.add("ss-fx-out");
+                ssLabel.classList.remove("ss-fx-in");
+                ssLabel.classList.add("ss-fx-out");
+
+                setTimeout(() => {
+                    const name = ssSmilies[index];
+                    ssImg.src = "https://gs.xat.com/a_(" + encodeURIComponent(name) + ")_80";
+                    ssImg.alt = name;
+                    ssLabel.textContent = "(" + name + ")";
+                    ssSetDots(ssSmilies.length, index);
+
+                    ssImg.classList.remove("ss-fx-out");
+                    ssImg.classList.add("ss-fx-in");
+                    ssLabel.classList.remove("ss-fx-out");
+                    ssLabel.classList.add("ss-fx-in");
+
+                    if (cb) setTimeout(cb, 350);
+                }, 320);
+            }
+
+            function ssRunShow() {
+                if (!ssSmilies.length || ssRunning) return;
+                ssRunning = true;
+                ssCurrent = 0;
+
+                ssPanel.classList.add("ss-show");
+                ssShowSlide(ssCurrent);
+
+                function nextSlide() {
+                    ssCurrent++;
+                    if (ssCurrent < ssSmilies.length) {
+                        ssTimer = setTimeout(() => ssShowSlide(ssCurrent, nextSlide), 1800);
+                    } else {
+                        // all done — wait then slide back down
+                        ssTimer = setTimeout(() => {
+                            ssPanel.classList.remove("ss-show");
+                            setTimeout(() => {
+                                ssRunning = false;
+                                ssTimer = setTimeout(ssRunShow, 60000);
+                            }, 550);
+                        }, 2000);
+                    }
+                }
+
+                ssTimer = setTimeout(nextSlide, 1800);
+            }
+
+            function ssInit(smilies) {
+                if (!smilies || !smilies.length) return;
+                clearTimeout(ssTimer);
+                ssRunning = false;
+                ssSmilies = smilies;
+                ssTimer = setTimeout(ssRunShow, 60000);
             }
 
             startTipRotation();
