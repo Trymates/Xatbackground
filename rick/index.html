@@ -338,8 +338,8 @@ function stopMessages(final) {
 async function boot() {
   CFG = CONFIG_DATA;
   startMessages();
-  loaderBar.style.transition = 'width 2s ease';
-  loaderBar.style.width = '85%';
+  loaderBar.style.transition = 'width 8s ease';
+  loaderBar.style.width = '80%';
 
   // Init player immediately
   const songs = CFG.songs || [];
@@ -349,21 +349,15 @@ async function boot() {
     if (songs[0].src) { audio.src = songs[0].src; audio.load(); }
   }
 
-  // Fetch everything in parallel with a 3s hard timeout
-  const TIMEOUT = 3000;
-  const limit = ms => new Promise(r => setTimeout(r, ms));
-
-  const [profileData, ...friendResults] = await Promise.all([
-    // Main profile
-    Promise.race([ fetchDirect(`https://pythbots.com/api/xatprofile.php?u=${CFG.userId || 1997}`), limit(TIMEOUT).then(()=>null) ]),
-    // All friends at once
-    ...(CFG.friends || []).slice(0, 9).map((f, i) =>
-      Promise.race([
-        fetchDirect(`https://pythbots.com/api/xatprofile.php?u=${f.id}`),
-        limit(TIMEOUT).then(() => null)
-      ])
+  // Fire ALL requests at once, no timeout — wait as long as the API needs
+  const allRequests = [
+    fetchDirect(`https://pythbots.com/api/xatprofile.php?u=${CFG.userId || 1997}`),
+    ...(CFG.friends || []).slice(0, 9).map(f =>
+      fetchDirect(`https://pythbots.com/api/xatprofile.php?u=${f.id}`)
     ),
-  ]);
+  ];
+
+  const [profileData, ...friendResults] = await Promise.all(allRequests);
 
   // Apply friend data
   const friends = (CFG.friends || []).slice(0, 9);
@@ -377,11 +371,11 @@ async function boot() {
   let avatarSrc = '';
   if (profileData && profileData.avatar) avatarSrc = profileData.avatar.split('#')[0];
 
-  // Preload images (non-blocking, best-effort)
-  const allImages = [avatarSrc, ...friends.map(f=>f.fetchedAvatar||''), ...(CFG.gallery||[]).slice(0,9)];
-  await Promise.race([
-    Promise.all(allImages.map(preloadImage)),
-    limit(1500)
+  // Preload all images in parallel
+  await Promise.all([
+    avatarSrc ? preloadImage(avatarSrc) : Promise.resolve(),
+    ...friends.map(f => preloadImage(f.fetchedAvatar || '')),
+    ...(CFG.gallery || []).slice(0, 9).map(preloadImage),
   ]);
 
   // Build UI
