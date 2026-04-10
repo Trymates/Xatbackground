@@ -322,7 +322,7 @@ async function boot() {
   startMessages();
 
   // Animate bar slowly while waiting
-  loaderBar.style.transition = 'width 10s ease';
+  loaderBar.style.transition = 'width 4s ease';
   loaderBar.style.width = '75%';
 
   // Init player immediately
@@ -382,7 +382,7 @@ function applyProfile(data, avatarSrc) {
   const raw = (data && data.online) ? data.online.toLowerCase() : '';
   const dot  = document.getElementById('statusDot');
   const span = document.getElementById('userStatus');
-  if (raw === 'online' || raw === 'available') {
+  if (raw === 'online') {
     span.textContent='En línea'; dot.style.background='#22c55e'; dot.style.boxShadow='0 0 6px #22c55e';
   } else {
     span.textContent='Desconectado'; dot.style.background='#64748b'; dot.style.boxShadow='none';
