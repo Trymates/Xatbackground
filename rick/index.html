@@ -422,9 +422,6 @@ document.querySelectorAll('.tab-btn').forEach(btn=>{
     document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));
     btn.classList.add('active');
     document.getElementById('tab-'+btn.dataset.tab).classList.add('active');
-    const ln=document.getElementById('left-name'), ui=document.querySelector('.user-info');
-    if(btn.dataset.tab!=='profile'){ ln.style.display='block'; ui.style.display='none'; }
-    else { ln.style.display='none'; ui.style.display='block'; }
   });
 });
 
