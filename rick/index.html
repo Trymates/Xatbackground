@@ -1,1264 +1,573 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="es">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>RICK – xat Perfil</title>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link
-            href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap"
-            rel="stylesheet"
-        />
-        <style>
-            :root {
-                --bg: #03070f;
-                --panel: #070d1a;
-                --border: rgba(59, 130, 246, 0.18);
-                --blue: #3b82f6;
-                --blue2: #60a5fa;
-                --blue3: #93c5fd;
-                --accent: #1d4ed8;
-                --glow: rgba(59, 130, 246, 0.35);
-                --text: #e2e8f0;
-                --muted: #64748b;
-                --card: rgba(10, 18, 32, 0.85);
-            }
-            * {
-                margin: 0;
-                padding: 0;
-                box-sizing: border-box;
-            }
-            body {
-                background: var(--bg);
-                font-family: "Rajdhani", sans-serif;
-                min-height: 100vh;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                overflow-x: hidden;
-            }
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RICK – xat Perfil</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #03070f;
+    --panel: #070d1a;
+    --border: rgba(59,130,246,0.18);
+    --blue: #3b82f6;
+    --blue2: #60a5fa;
+    --blue3: #93c5fd;
+    --accent: #1d4ed8;
+    --glow: rgba(59,130,246,0.35);
+    --text: #e2e8f0;
+    --muted: #64748b;
+    --card: rgba(10,18,32,0.85);
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    background: var(--bg);
+    font-family: 'Rajdhani', sans-serif;
+    min-height: 100vh;
+    display: flex; align-items: center; justify-content: center;
+    overflow-x: hidden;
+  }
 
-            /* LOADER */
-            #loader {
-                position: fixed;
-                inset: 0;
-                z-index: 9999;
-                background: var(--bg);
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                justify-content: center;
-                gap: 24px;
-                transition:
-                    opacity 0.6s ease,
-                    visibility 0.6s ease;
-            }
-            #loader.hidden {
-                opacity: 0;
-                visibility: hidden;
-            }
-            .loader-name {
-                font-family: "Cinzel", serif;
-                font-size: 1.8rem;
-                letter-spacing: 8px;
-                color: var(--blue2);
-                text-transform: uppercase;
-            }
-            .loader-bar-wrap {
-                width: 200px;
-                height: 3px;
-                background: rgba(59, 130, 246, 0.15);
-                border-radius: 99px;
-                overflow: hidden;
-            }
-            .loader-bar {
-                height: 100%;
-                background: linear-gradient(90deg, var(--blue), var(--blue2));
-                border-radius: 99px;
-                width: 0%;
-                transition: width 0.3s ease;
-                box-shadow: 0 0 10px var(--blue);
-            }
-            .loader-status {
-                font-size: 0.75rem;
-                color: var(--muted);
-                letter-spacing: 2px;
-                text-transform: uppercase;
-            }
+  /* LOADER */
+  #loader {
+    position: fixed; inset: 0; z-index: 9999;
+    background: var(--bg);
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center; gap: 24px;
+    transition: opacity 0.6s ease, visibility 0.6s ease;
+  }
+  #loader.hidden { opacity: 0; visibility: hidden; }
+  .loader-name { font-family:'Cinzel',serif; font-size:1.8rem; letter-spacing:8px; color:var(--blue2); text-transform:uppercase; }
+  .loader-bar-wrap { width:200px; height:3px; background:rgba(59,130,246,0.15); border-radius:99px; overflow:hidden; }
+  .loader-bar { height:100%; background:linear-gradient(90deg,var(--blue),var(--blue2)); border-radius:99px; width:0%; transition:width 0.3s ease; box-shadow:0 0 10px var(--blue); }
+  .loader-status { font-size:0.75rem; color:var(--muted); letter-spacing:2px; text-transform:uppercase; }
 
-            /* STARS */
-            #stars-bg {
-                position: fixed;
-                inset: 0;
-                pointer-events: none;
-                z-index: 0;
-                overflow: hidden;
-            }
-            .star {
-                position: absolute;
-                width: 2px;
-                height: 2px;
-                background: white;
-                border-radius: 50%;
-                opacity: 0;
-                animation: twinkle var(--d) var(--delay) infinite;
-            }
-            @keyframes twinkle {
-                0%,
-                100% {
-                    opacity: 0;
-                    transform: scale(1);
-                }
-                50% {
-                    opacity: var(--op);
-                    transform: scale(var(--sc));
-                }
-            }
-            .shoot {
-                position: absolute;
-                width: 80px;
-                height: 1px;
-                background: linear-gradient(
-                    90deg,
-                    rgba(255, 255, 255, 0),
-                    white
-                );
-                animation: shoot var(--sd) var(--sdelay) linear infinite;
-                opacity: 0;
-            }
-            @keyframes shoot {
-                0% {
-                    opacity: 0;
-                    transform: translate(0, 0) rotate(var(--angle));
-                }
-                10% {
-                    opacity: 1;
-                }
-                80% {
-                    opacity: 0.5;
-                }
-                100% {
-                    opacity: 0;
-                    transform: translate(var(--tx), var(--ty))
-                        rotate(var(--angle));
-                }
-            }
+  /* STARS */
+  #stars-bg { position:fixed; inset:0; pointer-events:none; z-index:0; overflow:hidden; }
+  .star { position:absolute; width:2px; height:2px; background:white; border-radius:50%; opacity:0; animation:twinkle var(--d) var(--delay) infinite; }
+  @keyframes twinkle { 0%,100%{opacity:0;transform:scale(1)} 50%{opacity:var(--op);transform:scale(var(--sc))} }
+  .shoot { position:absolute; width:80px; height:1px; background:linear-gradient(90deg,rgba(255,255,255,0),white); animation:shoot var(--sd) var(--sdelay) linear infinite; opacity:0; }
+  @keyframes shoot { 0%{opacity:0;transform:translate(0,0) rotate(var(--angle))} 10%{opacity:1} 80%{opacity:0.5} 100%{opacity:0;transform:translate(var(--tx),var(--ty)) rotate(var(--angle))} }
 
-            /* APP */
-            #app {
-                position: relative;
-                z-index: 1;
-                width: min(1060px, 96vw);
-                opacity: 0;
-                transform: translateY(20px);
-                transition:
-                    opacity 0.8s ease,
-                    transform 0.8s ease;
-            }
-            #app.visible {
-                opacity: 1;
-                transform: translateY(0);
-            }
-            .profile-shell {
-                display: flex;
-                border: 1px solid var(--border);
-                border-radius: 16px;
-                overflow: hidden;
-                background: var(--card);
-                backdrop-filter: blur(20px);
-                box-shadow:
-                    0 0 60px rgba(59, 130, 246, 0.08),
-                    0 2px 40px rgba(0, 0, 0, 0.8);
-            }
+  /* APP */
+  #app { position:relative; z-index:1; width:min(1060px,96vw); opacity:0; transform:translateY(20px); transition:opacity 0.8s ease,transform 0.8s ease; }
+  #app.visible { opacity:1; transform:translateY(0); }
+  .profile-shell { display:flex; border:1px solid var(--border); border-radius:16px; overflow:hidden; background:var(--card); backdrop-filter:blur(20px); box-shadow:0 0 60px rgba(59,130,246,0.08),0 2px 40px rgba(0,0,0,0.8); }
 
-            /* LEFT */
-            .left-panel {
-                width: 260px;
-                flex-shrink: 0;
-                background: var(--panel);
-                border-right: 1px solid var(--border);
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                padding: 32px 20px 24px;
-                gap: 20px;
-                position: relative;
-            }
-            .left-panel::before {
-                content: "";
-                position: absolute;
-                top: 0;
-                left: 0;
-                right: 0;
-                height: 1px;
-                background: linear-gradient(
-                    90deg,
-                    transparent,
-                    var(--blue),
-                    transparent
-                );
-            }
-            .corner {
-                position: absolute;
-                width: 18px;
-                height: 18px;
-                border-color: rgba(59, 130, 246, 0.5);
-                border-style: solid;
-            }
-            .corner-tl {
-                top: 8px;
-                left: 8px;
-                border-width: 1.5px 0 0 1.5px;
-            }
-            .corner-bl {
-                bottom: 8px;
-                left: 8px;
-                border-width: 0 0 1.5px 1.5px;
-            }
-            .left-name {
-                font-family: "Cinzel", serif;
-                font-size: 1.2rem;
-                letter-spacing: 4px;
-                color: var(--blue2);
-                text-transform: uppercase;
-                display: none;
-            }
+  /* LEFT */
+  .left-panel { width:260px; flex-shrink:0; background:var(--panel); border-right:1px solid var(--border); display:flex; flex-direction:column; align-items:center; padding:32px 20px 24px; gap:20px; position:relative; }
+  .left-panel::before { content:''; position:absolute; top:0; left:0; right:0; height:1px; background:linear-gradient(90deg,transparent,var(--blue),transparent); }
+  .corner { position:absolute; width:18px; height:18px; border-color:rgba(59,130,246,0.5); border-style:solid; }
+  .corner-tl { top:8px; left:8px; border-width:1.5px 0 0 1.5px; }
+  .corner-bl { bottom:8px; left:8px; border-width:0 0 1.5px 1.5px; }
+  .left-name { font-family:'Cinzel',serif; font-size:1.2rem; letter-spacing:4px; color:var(--blue2); text-transform:uppercase; display:none; }
 
-            /* Avatar */
-            .avatar-wrap {
-                position: relative;
-                width: 140px;
-                height: 140px;
-            }
-            .beat-canvas {
-                position: absolute;
-                inset: -28px;
-                width: calc(100% + 56px);
-                height: calc(100% + 56px);
-                border-radius: 50%;
-                z-index: 0;
-                opacity: 0;
-                transition: opacity 0.5s ease;
-            }
-            .beat-canvas.active {
-                opacity: 1;
-            }
-            .beat-ring {
-                position: absolute;
-                inset: -12px;
-                border-radius: 50%;
-                border: 2px solid transparent;
-                z-index: 1;
-            }
-            .beat-ring::before,
-            .beat-ring::after {
-                content: "";
-                position: absolute;
-                inset: 0;
-                border-radius: 50%;
-                border: 1.5px solid rgba(59, 130, 246, 0.25);
-            }
-            .halo {
-                position: absolute;
-                top: -14px;
-                left: 50%;
-                transform: translateX(-50%);
-                width: 60px;
-                height: 14px;
-                border: 2px solid rgba(59, 130, 246, 0.6);
-                border-bottom: none;
-                border-radius: 50px 50px 0 0;
-                z-index: 3;
-                box-shadow: 0 -4px 12px rgba(59, 130, 246, 0.4);
-                animation: haloFloat 3s ease-in-out infinite;
-            }
-            @keyframes haloFloat {
-                0%,
-                100% {
-                    transform: translateX(-50%) translateY(0);
-                }
-                50% {
-                    transform: translateX(-50%) translateY(-3px);
-                }
-            }
-            .avatar-img-wrap {
-                width: 140px;
-                height: 140px;
-                border-radius: 50%;
-                overflow: hidden;
-                border: 2px solid var(--blue);
-                box-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
-                position: relative;
-                z-index: 2;
-            }
-            .avatar-img-wrap img {
-                width: 100%;
-                height: 100%;
-                object-fit: cover;
-            }
+  /* Avatar */
+  .avatar-wrap { position:relative; width:140px; height:140px; }
+  .beat-canvas { position:absolute; inset:-28px; width:calc(100% + 56px); height:calc(100% + 56px); border-radius:50%; z-index:0; opacity:0; transition:opacity 0.5s ease; }
+  .beat-canvas.active { opacity:1; }
+  .beat-ring { position:absolute; inset:-12px; border-radius:50%; border:2px solid transparent; z-index:1; }
+  .beat-ring::before,.beat-ring::after { content:''; position:absolute; inset:0; border-radius:50%; border:1.5px solid rgba(59,130,246,0.25); }
+  .halo { position:absolute; top:-14px; left:50%; transform:translateX(-50%); width:60px; height:14px; border:2px solid rgba(59,130,246,0.6); border-bottom:none; border-radius:50px 50px 0 0; z-index:3; box-shadow:0 -4px 12px rgba(59,130,246,0.4); animation:haloFloat 3s ease-in-out infinite; }
+  @keyframes haloFloat { 0%,100%{transform:translateX(-50%) translateY(0)} 50%{transform:translateX(-50%) translateY(-3px)} }
+  .avatar-img-wrap { width:140px; height:140px; border-radius:50%; overflow:hidden; border:2px solid var(--blue); box-shadow:0 0 20px rgba(59,130,246,0.3); position:relative; z-index:2; }
+  .avatar-img-wrap img { width:100%; height:100%; object-fit:cover; }
 
-            /* User info */
-            .user-info {
-                text-align: center;
-            }
-            .user-name {
-                font-family: "Cinzel", serif;
-                font-size: 1.8rem;
-                letter-spacing: 5px;
-                color: var(--text);
-                text-transform: uppercase;
-            }
-            .user-id {
-                font-size: 0.78rem;
-                color: var(--muted);
-                letter-spacing: 2px;
-                margin-top: 2px;
-            }
-            .user-status {
-                display: inline-flex;
-                align-items: center;
-                gap: 6px;
-                margin-top: 8px;
-                font-size: 0.75rem;
-                color: var(--blue3);
-                letter-spacing: 1px;
-                text-transform: uppercase;
-            }
-            .status-dot {
-                width: 6px;
-                height: 6px;
-                border-radius: 50%;
-                background: #22c55e;
-                box-shadow: 0 0 6px #22c55e;
-                animation: blink 2s ease-in-out infinite;
-            }
-            @keyframes blink {
-                0%,
-                100% {
-                    opacity: 1;
-                }
-                50% {
-                    opacity: 0.4;
-                }
-            }
+  /* User info */
+  .user-info { text-align:center; }
+  .user-name { font-family:'Cinzel',serif; font-size:1.8rem; letter-spacing:5px; color:var(--text); text-transform:uppercase; }
+  .user-id { font-size:0.78rem; color:var(--muted); letter-spacing:2px; margin-top:2px; }
+  .user-status { display:inline-flex; align-items:center; gap:6px; margin-top:8px; font-size:0.75rem; color:var(--blue3); letter-spacing:1px; text-transform:uppercase; }
+  .status-dot { width:6px; height:6px; border-radius:50%; background:#22c55e; box-shadow:0 0 6px #22c55e; animation:blink 2s ease-in-out infinite; }
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.4} }
 
-            /* Player */
-            .player {
-                width: 100%;
-                background: rgba(59, 130, 246, 0.06);
-                border: 1px solid var(--border);
-                border-radius: 10px;
-                padding: 12px 14px;
-            }
-            .player-song {
-                font-size: 0.85rem;
-                font-weight: 600;
-                color: var(--text);
-                white-space: nowrap;
-                overflow: hidden;
-                text-overflow: ellipsis;
-            }
-            .player-artist {
-                font-size: 0.7rem;
-                color: var(--muted);
-                margin-top: 1px;
-                letter-spacing: 1px;
-                text-transform: uppercase;
-                white-space: nowrap;
-                overflow: hidden;
-                text-overflow: ellipsis;
-            }
-            .player-bar-wrap {
-                width: 100%;
-                height: 3px;
-                background: rgba(59, 130, 246, 0.15);
-                border-radius: 99px;
-                margin: 10px 0;
-                cursor: pointer;
-                overflow: hidden;
-            }
-            .player-bar {
-                height: 100%;
-                background: linear-gradient(90deg, var(--blue), var(--blue2));
-                border-radius: 99px;
-                width: 0%;
-                transition: width 0.1s linear;
-                box-shadow: 0 0 6px var(--blue);
-            }
-            .player-controls {
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                gap: 16px;
-            }
-            .ctrl-btn {
-                background: none;
-                border: none;
-                cursor: pointer;
-                color: var(--muted);
-                font-size: 1rem;
-                transition:
-                    color 0.2s,
-                    transform 0.15s;
-            }
-            .ctrl-btn:hover {
-                color: var(--blue2);
-                transform: scale(1.15);
-            }
-            .play-btn {
-                width: 34px;
-                height: 34px;
-                border-radius: 50%;
-                background: linear-gradient(135deg, var(--blue), var(--accent));
-                border: none;
-                cursor: pointer;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                box-shadow: 0 0 14px var(--glow);
-                color: white;
-                font-size: 0.85rem;
-                transition:
-                    transform 0.15s,
-                    box-shadow 0.2s;
-            }
-            .play-btn:hover {
-                transform: scale(1.08);
-                box-shadow: 0 0 22px rgba(59, 130, 246, 0.6);
-            }
+  /* Player */
+  .player { width:100%; background:rgba(59,130,246,0.06); border:1px solid var(--border); border-radius:10px; padding:12px 14px; }
+  .player-song { font-size:0.85rem; font-weight:600; color:var(--text); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .player-artist { font-size:0.7rem; color:var(--muted); margin-top:1px; letter-spacing:1px; text-transform:uppercase; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .player-bar-wrap { width:100%; height:3px; background:rgba(59,130,246,0.15); border-radius:99px; margin:10px 0; cursor:pointer; overflow:hidden; }
+  .player-bar { height:100%; background:linear-gradient(90deg,var(--blue),var(--blue2)); border-radius:99px; width:0%; transition:width 0.1s linear; box-shadow:0 0 6px var(--blue); }
+  .player-controls { display:flex; align-items:center; justify-content:center; gap:16px; }
+  .ctrl-btn { background:none; border:none; cursor:pointer; color:var(--muted); font-size:1rem; transition:color 0.2s,transform 0.15s; }
+  .ctrl-btn:hover { color:var(--blue2); transform:scale(1.15); }
+  .play-btn { width:34px; height:34px; border-radius:50%; background:linear-gradient(135deg,var(--blue),var(--accent)); border:none; cursor:pointer; display:flex; align-items:center; justify-content:center; box-shadow:0 0 14px var(--glow); color:white; font-size:0.85rem; transition:transform 0.15s,box-shadow 0.2s; }
+  .play-btn:hover { transform:scale(1.08); box-shadow:0 0 22px rgba(59,130,246,0.6); }
 
-            /* RIGHT */
-            .right-panel {
-                flex: 1;
-                display: flex;
-                flex-direction: column;
-                min-height: 380px;
-            }
-            .tabs {
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                gap: 8px;
-                padding: 20px 24px 16px;
-                border-bottom: 1px solid var(--border);
-            }
-            .tab-btn {
-                padding: 6px 20px;
-                border-radius: 99px;
-                border: 1px solid var(--border);
-                background: transparent;
-                color: var(--muted);
-                font-family: "Rajdhani", sans-serif;
-                font-size: 0.8rem;
-                font-weight: 600;
-                letter-spacing: 2px;
-                text-transform: uppercase;
-                cursor: pointer;
-                transition: all 0.2s;
-            }
-            .tab-btn:hover {
-                color: var(--blue2);
-                border-color: rgba(59, 130, 246, 0.4);
-            }
-            .tab-btn.active {
-                background: linear-gradient(135deg, var(--blue), var(--accent));
-                border-color: transparent;
-                color: white;
-                box-shadow: 0 0 14px var(--glow);
-            }
+  /* RIGHT */
+  .right-panel { flex:1; display:flex; flex-direction:column; min-height:380px; }
+  .tabs { display:flex; align-items:center; justify-content:center; gap:8px; padding:20px 24px 16px; border-bottom:1px solid var(--border); }
+  .tab-btn { padding:6px 20px; border-radius:99px; border:1px solid var(--border); background:transparent; color:var(--muted); font-family:'Rajdhani',sans-serif; font-size:0.8rem; font-weight:600; letter-spacing:2px; text-transform:uppercase; cursor:pointer; transition:all 0.2s; }
+  .tab-btn:hover { color:var(--blue2); border-color:rgba(59,130,246,0.4); }
+  .tab-btn.active { background:linear-gradient(135deg,var(--blue),var(--accent)); border-color:transparent; color:white; box-shadow:0 0 14px var(--glow); }
 
-            .tab-content {
-                display: none;
-                padding: 24px;
-                flex: 1;
-                overflow-y: auto;
-                max-height: 430px;
-            }
-            .tab-content.active {
-                display: block;
-                animation: fadeIn 0.3s ease;
-            }
-            @keyframes fadeIn {
-                from {
-                    opacity: 0;
-                    transform: translateY(6px);
-                }
-                to {
-                    opacity: 1;
-                    transform: translateY(0);
-                }
-            }
+  .tab-content { display:none; padding:24px; flex:1; overflow-y:auto; max-height:430px; }
+  .tab-content.active { display:block; animation:fadeIn 0.3s ease; }
+  @keyframes fadeIn { from{opacity:0;transform:translateY(6px)} to{opacity:1;transform:translateY(0)} }
 
-            /* Profile */
-            .profile-title {
-                font-family: "Cinzel", serif;
-                font-size: 2.4rem;
-                letter-spacing: 6px;
-                color: var(--text);
-                text-transform: uppercase;
-                margin-bottom: 4px;
-                text-align: center;
-            }
-            .profile-subtitle {
-                text-align: center;
-                font-size: 0.75rem;
-                color: var(--muted);
-                letter-spacing: 3px;
-                text-transform: uppercase;
-                margin-bottom: 20px;
-            }
-            .profile-quote {
-                background: rgba(59, 130, 246, 0.06);
-                border: 1px solid var(--border);
-                border-left: 3px solid var(--blue);
-                border-radius: 8px;
-                padding: 14px 16px;
-                font-size: 0.88rem;
-                color: var(--text);
-                line-height: 1.6;
-                font-style: italic;
-                margin-bottom: 16px;
-            }
-            .bio-box {
-                background: rgba(59, 130, 246, 0.05);
-                border: 1px solid var(--border);
-                border-radius: 10px;
-                padding: 14px 16px;
-                font-size: 0.9rem;
-                color: var(--text);
-                line-height: 1.7;
-                white-space: pre-wrap;
-            }
+  /* Profile */
+  .profile-title { font-family:'Cinzel',serif; font-size:2.4rem; letter-spacing:6px; color:var(--text); text-transform:uppercase; margin-bottom:4px; text-align:center; }
+  .profile-subtitle { text-align:center; font-size:0.75rem; color:var(--muted); letter-spacing:3px; text-transform:uppercase; margin-bottom:20px; }
+  .profile-quote { background:rgba(59,130,246,0.06); border:1px solid var(--border); border-left:3px solid var(--blue); border-radius:8px; padding:14px 16px; font-size:0.88rem; color:var(--text); line-height:1.6; font-style:italic; margin-bottom:16px; }
+  .country-card {
+    background: rgba(59,130,246,0.05); border: 1px solid var(--border);
+    border-radius: 10px; padding: 14px 16px; text-align: center;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  .country-card:hover { border-color: rgba(59,130,246,0.4); box-shadow: 0 0 16px rgba(59,130,246,0.08); }
+  .country-val { font-size: 1rem; font-weight: 700; color: var(--text); letter-spacing: 1px; display:flex; align-items:center; justify-content:center; gap:6px; flex-wrap:wrap; }
+  .flag-img { height: 18px; border-radius: 3px; box-shadow: 0 1px 4px rgba(0,0,0,0.4); vertical-align: middle; }
+  .country-label { font-size: 0.7rem; color: var(--muted); letter-spacing: 2px; text-transform: uppercase; margin-top: 5px; }
 
-            /* Friends */
-            .friends-grid {
-                display: grid;
-                grid-template-columns: 1fr 1fr;
-                gap: 10px;
-            }
-            .friend-card {
-                background: rgba(59, 130, 246, 0.05);
-                border: 1px solid var(--border);
-                border-radius: 10px;
-                padding: 12px 14px;
-                display: flex;
-                align-items: center;
-                gap: 12px;
-                cursor: pointer;
-                transition:
-                    border-color 0.2s,
-                    box-shadow 0.2s,
-                    transform 0.2s;
-            }
-            .friend-card:hover {
-                border-color: rgba(59, 130, 246, 0.4);
-                box-shadow: 0 0 16px rgba(59, 130, 246, 0.1);
-                transform: translateY(-1px);
-            }
-            .friend-avatar {
-                width: 42px;
-                height: 42px;
-                border-radius: 50%;
-                overflow: hidden;
-                border: 1.5px solid var(--border);
-                flex-shrink: 0;
-                background: var(--panel);
-                display: flex;
-                align-items: center;
-                justify-content: center;
-            }
-            .friend-avatar img {
-                width: 100%;
-                height: 100%;
-                object-fit: cover;
-            }
-            .friend-avatar .no-avatar {
-                font-size: 1.2rem;
-                color: var(--muted);
-            }
-            .friend-name {
-                font-size: 0.9rem;
-                font-weight: 600;
-                color: var(--text);
-            }
-            .friend-id {
-                font-size: 0.7rem;
-                color: var(--muted);
-                margin-top: 2px;
-                letter-spacing: 1px;
-            }
-            .friends-empty {
-                grid-column: 1/-1;
-                text-align: center;
-                color: var(--muted);
-                font-size: 0.8rem;
-                letter-spacing: 2px;
-                text-transform: uppercase;
-                padding: 40px 0;
-            }
-            .pulse-heart {
-                display: inline-block;
-                color: #f43f5e;
-                font-size: 1.1rem;
-                margin-left: 6px;
-                animation: heartbeat 1.2s ease-in-out infinite;
-                filter: drop-shadow(0 0 4px rgba(244, 63, 94, 0.7));
-                vertical-align: middle;
-            }
-            @keyframes heartbeat {
-                0%,
-                100% {
-                    transform: scale(1);
-                }
-                14% {
-                    transform: scale(1.3);
-                }
-                28% {
-                    transform: scale(1);
-                }
-                42% {
-                    transform: scale(1.2);
-                }
-                70% {
-                    transform: scale(1);
-                }
-            }
+  /* Friends */
+  .friends-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+  .friend-card { background:rgba(59,130,246,0.05); border:1px solid var(--border); border-radius:10px; padding:12px 14px; display:flex; align-items:center; gap:12px; cursor:pointer; transition:border-color 0.2s,box-shadow 0.2s,transform 0.2s; }
+  .friend-card:hover { border-color:rgba(59,130,246,0.4); box-shadow:0 0 16px rgba(59,130,246,0.1); transform:translateY(-1px); }
+  .friend-avatar { width:42px; height:42px; border-radius:50%; overflow:hidden; border:1.5px solid var(--border); flex-shrink:0; background:var(--panel); display:flex; align-items:center; justify-content:center; }
+  .friend-avatar img { width:100%; height:100%; object-fit:cover; }
+  .friend-avatar .no-avatar { font-size:1.2rem; color:var(--muted); }
+  .friend-name { font-size:0.9rem; font-weight:600; color:var(--text); }
+  .friend-id { font-size:0.7rem; color:var(--muted); margin-top:2px; letter-spacing:1px; }
+  .friends-empty { grid-column:1/-1; text-align:center; color:var(--muted); font-size:0.8rem; letter-spacing:2px; text-transform:uppercase; padding:40px 0; }
+  .pulse-heart { display:inline-block; color:#f43f5e; font-size:1.1rem; margin-left:6px; animation:heartbeat 1.2s ease-in-out infinite; filter:drop-shadow(0 0 4px rgba(244,63,94,0.7)); vertical-align:middle; }
+  @keyframes heartbeat { 0%,100%{transform:scale(1)} 14%{transform:scale(1.3)} 28%{transform:scale(1)} 42%{transform:scale(1.2)} 70%{transform:scale(1)} }
 
-            /* Gallery */
-            .gallery-grid {
-                display: grid;
-                grid-template-columns: repeat(3, 1fr);
-                gap: 10px;
-            }
-            .gallery-item {
-                aspect-ratio: 1;
-                border-radius: 10px;
-                overflow: hidden;
-                border: 1px solid var(--border);
-                cursor: pointer;
-                position: relative;
-                transition:
-                    transform 0.2s,
-                    border-color 0.2s,
-                    box-shadow 0.2s;
-            }
-            .gallery-item::after {
-                content: "";
-                position: absolute;
-                inset: 0;
-                background: rgba(59, 130, 246, 0);
-                transition: background 0.2s;
-            }
-            .gallery-item:hover {
-                transform: scale(1.03);
-                border-color: var(--blue);
-                box-shadow: 0 0 18px rgba(59, 130, 246, 0.25);
-            }
-            .gallery-item:hover::after {
-                background: rgba(59, 130, 246, 0.1);
-            }
-            .gallery-item img {
-                width: 100%;
-                height: 100%;
-                object-fit: cover;
-                display: block;
-            }
+  /* Gallery */
+  .gallery-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; }
+  .gallery-item { aspect-ratio:1; border-radius:10px; overflow:hidden; border:1px solid var(--border); cursor:pointer; position:relative; transition:transform 0.2s,border-color 0.2s,box-shadow 0.2s; }
+  .gallery-item::after { content:''; position:absolute; inset:0; background:rgba(59,130,246,0); transition:background 0.2s; }
+  .gallery-item:hover { transform:scale(1.03); border-color:var(--blue); box-shadow:0 0 18px rgba(59,130,246,0.25); }
+  .gallery-item:hover::after { background:rgba(59,130,246,0.1); }
+  .gallery-item img { width:100%; height:100%; object-fit:cover; display:block; }
 
-            /* Lightbox */
-            #lightbox {
-                display: none;
-                position: fixed;
-                inset: 0;
-                z-index: 9998;
-                background: rgba(0, 0, 0, 0.9);
-                align-items: center;
-                justify-content: center;
-            }
-            #lightbox.open {
-                display: flex;
-            }
-            #lightbox img {
-                max-width: 90vw;
-                max-height: 85vh;
-                border-radius: 12px;
-                border: 1px solid var(--border);
-                box-shadow: 0 0 60px rgba(59, 130, 246, 0.2);
-            }
-            #lightbox-close {
-                position: absolute;
-                top: 20px;
-                right: 24px;
-                color: var(--muted);
-                font-size: 2rem;
-                cursor: pointer;
-                transition: color 0.2s;
-            }
-            #lightbox-close:hover {
-                color: var(--blue2);
-            }
-        </style>
-    </head>
-    <body>
-        <div id="stars-bg"></div>
+  /* Lightbox */
+  #lightbox { display:none; position:fixed; inset:0; z-index:9998; background:rgba(0,0,0,0.9); align-items:center; justify-content:center; }
+  #lightbox.open { display:flex; }
+  #lightbox img { max-width:90vw; max-height:85vh; border-radius:12px; border:1px solid var(--border); box-shadow:0 0 60px rgba(59,130,246,0.2); }
+  #lightbox-close { position:absolute; top:20px; right:24px; color:var(--muted); font-size:2rem; cursor:pointer; transition:color 0.2s; }
+  #lightbox-close:hover { color:var(--blue2); }
+</style>
+</head>
+<body>
 
-        <div id="loader">
-            <div class="loader-name">RICK</div>
-            <div class="loader-bar-wrap">
-                <div class="loader-bar" id="loader-bar"></div>
-            </div>
-            <div class="loader-status" id="loader-status">
-                Conectando a xatspace...
-            </div>
+<div id="stars-bg"></div>
+
+<div id="loader">
+  <div class="loader-name">RICK</div>
+  <div class="loader-bar-wrap"><div class="loader-bar" id="loader-bar"></div></div>
+  <div class="loader-status" id="loader-status">Conectando a xatspace...</div>
+</div>
+
+<div id="app">
+  <div class="profile-shell">
+    <div class="left-panel">
+      <div class="corner corner-tl"></div>
+      <div class="corner corner-bl"></div>
+      <div class="left-name" id="left-name">RICK</div>
+      <div class="avatar-wrap">
+        <canvas class="beat-canvas" id="beatCanvas" width="196" height="196"></canvas>
+        <div class="beat-ring"></div>
+        <div class="halo"></div>
+        <div class="avatar-img-wrap"><img id="avatarImg" src="" alt="RICK"></div>
+      </div>
+      <div class="user-info">
+        <div class="user-name" id="userName">RICK</div>
+        <div class="user-id" id="userId">#1997</div>
+        <div class="user-status">
+          <div class="status-dot" id="statusDot"></div>
+          <span id="userStatus">–</span>
         </div>
-
-        <div id="app">
-            <div class="profile-shell">
-                <div class="left-panel">
-                    <div class="corner corner-tl"></div>
-                    <div class="corner corner-bl"></div>
-                    <div class="left-name" id="left-name">RICK</div>
-                    <div class="avatar-wrap">
-                        <canvas
-                            class="beat-canvas"
-                            id="beatCanvas"
-                            width="196"
-                            height="196"
-                        ></canvas>
-                        <div class="beat-ring"></div>
-                        <div class="halo"></div>
-                        <div class="avatar-img-wrap">
-                            <img id="avatarImg" src="" alt="RICK" />
-                        </div>
-                    </div>
-                    <div class="user-info">
-                        <div class="user-name" id="userName">RICK</div>
-                        <div class="user-id" id="userId">#1997</div>
-                        <div class="user-status">
-                            <div class="status-dot" id="statusDot"></div>
-                            <span id="userStatus">–</span>
-                        </div>
-                    </div>
-                    <div class="player">
-                        <div class="player-song" id="songTitle">
-                            Cargando...
-                        </div>
-                        <div class="player-artist" id="songArtist">–</div>
-                        <div class="player-bar-wrap" id="playerBarWrap">
-                            <div class="player-bar" id="playerBar"></div>
-                        </div>
-                        <div class="player-controls">
-                            <button class="ctrl-btn" id="prevBtn">
-                                &#9664;&#9664;
-                            </button>
-                            <button class="play-btn" id="playBtn">
-                                &#9654;
-                            </button>
-                            <button class="ctrl-btn" id="nextBtn">
-                                &#9654;&#9654;
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="right-panel">
-                    <div class="tabs">
-                        <button class="tab-btn active" data-tab="profile">
-                            Perfil
-                        </button>
-                        <button class="tab-btn" data-tab="friends">
-                            Amigos
-                        </button>
-                        <button class="tab-btn" data-tab="gallery">
-                            Galería
-                        </button>
-                    </div>
-                    <div class="tab-content active" id="tab-profile">
-                        <div class="profile-title" id="rtName">RICK</div>
-                        <div class="profile-subtitle">
-                            Bienvenido al mundo de Rick.
-                        </div>
-                        <div class="profile-quote" id="profileQuote"></div>
-                        <div class="bio-box" id="bioBox"></div>
-                    </div>
-                    <div class="tab-content" id="tab-friends">
-                        <div class="friends-grid" id="friendsGrid">
-                            <div class="friends-empty">Cargando amigos...</div>
-                        </div>
-                    </div>
-                    <div class="tab-content" id="tab-gallery">
-                        <div class="gallery-grid" id="galleryGrid"></div>
-                    </div>
-                </div>
-            </div>
+      </div>
+      <div class="player">
+        <div class="player-song" id="songTitle">Cargando...</div>
+        <div class="player-artist" id="songArtist">–</div>
+        <div class="player-bar-wrap" id="playerBarWrap">
+          <div class="player-bar" id="playerBar"></div>
         </div>
-
-        <div id="lightbox">
-            <span id="lightbox-close">&times;</span>
-            <img id="lightbox-img" src="" alt="" />
+        <div class="player-controls">
+          <button class="ctrl-btn" id="prevBtn">&#9664;&#9664;</button>
+          <button class="play-btn" id="playBtn">&#9654;</button>
+          <button class="ctrl-btn" id="nextBtn">&#9654;&#9654;</button>
         </div>
+      </div>
+    </div>
 
-        <audio id="audio"></audio>
+    <div class="right-panel">
+      <div class="tabs">
+        <button class="tab-btn active" data-tab="profile">Perfil</button>
+        <button class="tab-btn" data-tab="friends">Amigos</button>
+        <button class="tab-btn" data-tab="gallery">Galería</button>
+      </div>
+      <div class="tab-content active" id="tab-profile">
+        <div class="profile-title" id="rtName">RICK</div>
+        <div class="profile-subtitle">Bienvenido al mundo de Rick.</div>
+        <div class="profile-quote" id="profileQuote"></div>
+        <div class="country-card">
+          <div class="country-val">
+            <img src="https://flagcdn.com/w40/mx.png" class="flag-img" alt="México">
+            México &nbsp;|&nbsp;
+            <img src="https://flagcdn.com/w40/us.png" class="flag-img" alt="Estados Unidos">
+            Estados Unidos
+          </div>
+          <div class="country-label">País</div>
+        </div>
+      </div>
+      <div class="tab-content" id="tab-friends">
+        <div class="friends-grid" id="friendsGrid">
+          <div class="friends-empty">Cargando amigos...</div>
+        </div>
+      </div>
+      <div class="tab-content" id="tab-gallery">
+        <div class="gallery-grid" id="galleryGrid"></div>
+      </div>
+    </div>
+  </div>
+</div>
 
-        <script>
-            // ══════════════════════════════════════════════
-            // CORS PROXY — cicla por varios si falla
-            // ══════════════════════════════════════════════
-            const PROXIES = [
-                (u) =>
-                    `https://api.allorigins.win/raw?url=${encodeURIComponent(u)}`,
-                (u) => `https://corsproxy.io/?${encodeURIComponent(u)}`,
-                (u) => `https://thingproxy.freeboard.io/fetch/${u}`,
-            ];
+<div id="lightbox">
+  <span id="lightbox-close">&times;</span>
+  <img id="lightbox-img" src="" alt="">
+</div>
 
-            async function fetchProxy(url) {
-                for (const make of PROXIES) {
-                    try {
-                        const r = await fetch(make(url), {
-                            signal: AbortSignal.timeout(7000),
-                        });
-                        if (r.ok) {
-                            const j = await r.json();
-                            return j;
-                        }
-                    } catch (e) {
-                        /* siguiente */
-                    }
-                }
-                return null; // todos fallaron
-            }
+<audio id="audio"></audio>
 
-            // ══════════════════════════════════════════════
-            // ESTRELLAS
-            // ══════════════════════════════════════════════
-            (function () {
-                const bg = document.getElementById("stars-bg");
-                for (let i = 0; i < 160; i++) {
-                    const s = document.createElement("div");
-                    s.className = "star";
-                    s.style.cssText = `left:${Math.random() * 100}%;top:${Math.random() * 100}%;--d:${2 + Math.random() * 5}s;--delay:${Math.random() * 6}s;--op:${0.3 + Math.random() * 0.7};--sc:${1 + Math.random() * 1.5};`;
-                    bg.appendChild(s);
-                }
-                for (let i = 0; i < 5; i++) {
-                    const sh = document.createElement("div");
-                    sh.className = "shoot";
-                    const a = [-20, -30, -15, -25, -10][i];
-                    sh.style.cssText = `left:${Math.random() * 80}%;top:${Math.random() * 60}%;--angle:${a}deg;--tx:${300 + Math.random() * 200}px;--ty:${100 + Math.random() * 100}px;--sd:${3 + Math.random() * 4}s;--sdelay:${i * 2.5 + Math.random() * 3}s;`;
-                    bg.appendChild(sh);
-                }
-            })();
+<script>
+// ══════════════════════════════════════════════
+// FETCH DIRECTO — sin proxy
+// ══════════════════════════════════════════════
+async function fetchDirect(url) {
+  try {
+    const r = await fetch(url, { signal: AbortSignal.timeout(7000) });
+    if (r.ok) return await r.json();
+  } catch(e) {}
+  return null;
+}
 
-            // ══════════════════════════════════════════════
-            // PROGRESO
-            // ══════════════════════════════════════════════
-            const loaderBar = document.getElementById("loader-bar");
-            const loaderStatus = document.getElementById("loader-status");
-            function setProgress(pct, msg) {
-                loaderBar.style.width = pct + "%";
-                loaderStatus.textContent = msg;
-            }
-            function preloadImage(src) {
-                return new Promise((res) => {
-                    if (!src) return res();
-                    const i = new Image();
-                    i.onload = i.onerror = res;
-                    i.src = src;
-                });
-            }
+// ══════════════════════════════════════════════
+// ESTRELLAS
+// ══════════════════════════════════════════════
+(function() {
+  const bg = document.getElementById('stars-bg');
+  for (let i=0; i<160; i++) {
+    const s = document.createElement('div'); s.className='star';
+    s.style.cssText=`left:${Math.random()*100}%;top:${Math.random()*100}%;--d:${2+Math.random()*5}s;--delay:${Math.random()*6}s;--op:${0.3+Math.random()*0.7};--sc:${1+Math.random()*1.5};`;
+    bg.appendChild(s);
+  }
+  for (let i=0; i<5; i++) {
+    const sh = document.createElement('div'); sh.className='shoot';
+    const a = [-20,-30,-15,-25,-10][i];
+    sh.style.cssText=`left:${Math.random()*80}%;top:${Math.random()*60}%;--angle:${a}deg;--tx:${300+Math.random()*200}px;--ty:${100+Math.random()*100}px;--sd:${3+Math.random()*4}s;--sdelay:${i*2.5+Math.random()*3}s;`;
+    bg.appendChild(sh);
+  }
+})();
 
-            // ══════════════════════════════════════════════
-            // ESTADO GLOBAL
-            // ══════════════════════════════════════════════
-            let CFG = {};
-            let songIdx = 0;
+// ══════════════════════════════════════════════
+// PROGRESO
+// ══════════════════════════════════════════════
+const loaderBar    = document.getElementById('loader-bar');
+const loaderStatus = document.getElementById('loader-status');
+function setProgress(pct, msg) { loaderBar.style.width=pct+'%'; loaderStatus.textContent=msg; }
+function preloadImage(src) {
+  return new Promise(res => { if(!src) return res(); const i=new Image(); i.onload=i.onerror=res; i.src=src; });
+}
 
-            // ══════════════════════════════════════════════
-            // ARRANQUE
-            // ══════════════════════════════════════════════
-            async function boot() {
-                setProgress(5, "Cargando configuración...");
+// ══════════════════════════════════════════════
+// ✏️  CONFIGURACIÓN — edita aquí
+// ══════════════════════════════════════════════
+const CONFIG_DATA = {
+  userId:   1997,
+  userName: "RICK",
 
-                try {
-                    const r = await fetch("config.json?" + Date.now()); // cache-bust
-                    CFG = await r.json();
-                } catch (e) {
-                    setProgress(100, "¡Error! No se encontró config.json");
-                    return;
-                }
+  quote: '"El poder no se te da. Tienes que tomarlo."',
+  bio:   "Escribe tu bio aquí. Puedes poner lo que quieras — unas líneas sobre ti, tus intereses, o lo que sientas compartir.",
 
-                // Iniciar player con lo que hay en config
-                const songs = CFG.songs || [];
-                if (songs.length) {
-                    document.getElementById("songTitle").textContent =
-                        songs[0].title || "–";
-                    document.getElementById("songArtist").textContent =
-                        songs[0].artist || "–";
-                    if (songs[0].src) {
-                        audio.src = songs[0].src;
-                        audio.load();
-                    }
-                }
+  // Hasta 9 amigos. heart:true = corazón pulsante
+  friends: [
+    { id: "339911",     name: "Tikki",  heart: false },
+    { id: "221192",     name: "Tiro",   heart: false },
+    { id: "1519385625", name: "Matt",   heart: false },
+    { id: "690069",     name: "Fons",   heart: false },
+    { id: "1550045880", name: "Oriana", heart: true  },
+  ],
 
-                setProgress(15, "Conectando a xatspace...");
+  // Hasta 9 imágenes para la galería
+  gallery: [
+    "https://xatimg.com/image/4wmVFnjZyoSz.jpg",
+    "https://xatimg.com/image/bqetYwL9qNgZ.png",
+    "https://xatimg.com/image/4wmVFnjZyoSz.jpg",
+  ],
 
-                // Perfil principal
-                const profileData = await fetchProxy(
-                    `https://pythbots.com/api/xatprofile.php?u=${CFG.userId || 1997}`,
-                );
+  // Lista de canciones — src puede ser nombre de archivo local (ej: "song.mp3") o URL
+  songs: [
+    { title: "Have You Ever Seen The Rain", artist: "Creedence Clearwater Revival", src: "song.mp3" },
+  ],
+};
+// ══════════════════════════════════════════════
 
-                setProgress(30, "Cargando avatar...");
-                let avatarSrc = "";
-                if (profileData && profileData.avatar)
-                    avatarSrc = profileData.avatar.split("#")[0];
-                await preloadImage(avatarSrc);
+let CFG = {};
+let songIdx = 0;
 
-                setProgress(45, "Cargando amigos...");
-                const friends = (CFG.friends || []).slice(0, 9);
-                await Promise.all(
-                    friends.map(async (f, i) => {
-                        const fd = await fetchProxy(
-                            `https://pythbots.com/api/xatprofile.php?u=${f.id}`,
-                        );
-                        if (fd && fd.avatar)
-                            friends[i].fetchedAvatar = fd.avatar.split("#")[0];
-                        if (fd && fd.name) friends[i].fetchedName = fd.name;
-                        await preloadImage(friends[i].fetchedAvatar || "");
-                    }),
-                );
-                CFG.friends = friends;
+// Mensajes rotativos mientras carga
+const MENSAJES = [
+  'Conectando a xatspace...',
+  'Preparando tu perfil...',
+  'Cargando amigos...',
+  'Casi listo...',
+  'Un momento más...',
+  'Trayendo los datos...',
+  'Configurando todo...',
+  '¡Ya casi!',
+];
+let msgIdx = 0;
+let msgInterval = null;
+function startMessages() {
+  loaderStatus.textContent = MENSAJES[0];
+  msgInterval = setInterval(() => {
+    msgIdx = (msgIdx + 1) % MENSAJES.length;
+    loaderStatus.textContent = MENSAJES[msgIdx];
+  }, 600);
+}
+function stopMessages(final) {
+  clearInterval(msgInterval);
+  loaderStatus.textContent = final;
+}
 
-                setProgress(70, "Cargando galería...");
-                const gallery = (CFG.gallery || []).slice(0, 9);
-                await Promise.all(gallery.map(preloadImage));
+// ══════════════════════════════════════════════
+// ARRANQUE — todo en paralelo, máx ~2-3s
+// ══════════════════════════════════════════════
+async function boot() {
+  CFG = CONFIG_DATA;
+  startMessages();
+  loaderBar.style.transition = 'width 2s ease';
+  loaderBar.style.width = '85%';
 
-                setProgress(90, "Construyendo perfil...");
-                await new Promise((r) => setTimeout(r, 300));
+  // Init player immediately
+  const songs = CFG.songs || [];
+  if (songs.length) {
+    document.getElementById('songTitle').textContent  = songs[0].title  || '–';
+    document.getElementById('songArtist').textContent = songs[0].artist || '–';
+    if (songs[0].src) { audio.src = songs[0].src; audio.load(); }
+  }
 
-                applyProfile(profileData, avatarSrc);
-                buildFriends();
-                buildGallery();
+  // Fetch everything in parallel with a 3s hard timeout
+  const TIMEOUT = 3000;
+  const limit = ms => new Promise(r => setTimeout(r, ms));
 
-                setProgress(100, "¡Bienvenido!");
-                await new Promise((r) => setTimeout(r, 400));
-                document.getElementById("loader").classList.add("hidden");
-                document.getElementById("app").classList.add("visible");
-            }
+  const [profileData, ...friendResults] = await Promise.all([
+    // Main profile
+    Promise.race([ fetchDirect(`https://pythbots.com/api/xatprofile.php?u=${CFG.userId || 1997}`), limit(TIMEOUT).then(()=>null) ]),
+    // All friends at once
+    ...(CFG.friends || []).slice(0, 9).map((f, i) =>
+      Promise.race([
+        fetchDirect(`https://pythbots.com/api/xatprofile.php?u=${f.id}`),
+        limit(TIMEOUT).then(() => null)
+      ])
+    ),
+  ]);
 
-            // ══════════════════════════════════════════════
-            // APLICAR PERFIL
-            // ══════════════════════════════════════════════
-            function applyProfile(data, avatarSrc) {
-                document.getElementById("avatarImg").src = avatarSrc || "";
-                const name = CFG.userName || "RICK";
-                ["userName", "rtName", "left-name"].forEach(
-                    (id) => (document.getElementById(id).textContent = name),
-                );
-                document.getElementById("userId").textContent =
-                    "#" + (CFG.userId || "");
+  // Apply friend data
+  const friends = (CFG.friends || []).slice(0, 9);
+  friendResults.forEach((fd, i) => {
+    if (fd && fd.avatar) friends[i].fetchedAvatar = fd.avatar.split('#')[0];
+    if (fd && fd.name)   friends[i].fetchedName   = fd.name;
+  });
+  CFG.friends = friends;
 
-                const raw =
-                    data && data.online ? data.online.toLowerCase() : "";
-                const dot = document.getElementById("statusDot");
-                const span = document.getElementById("userStatus");
-                if (raw === "online" || raw === "available") {
-                    span.textContent = "En línea";
-                    dot.style.background = "#22c55e";
-                    dot.style.boxShadow = "0 0 6px #22c55e";
-                } else {
-                    span.textContent = "Desconectado";
-                    dot.style.background = "#64748b";
-                    dot.style.boxShadow = "none";
-                }
+  // Avatar
+  let avatarSrc = '';
+  if (profileData && profileData.avatar) avatarSrc = profileData.avatar.split('#')[0];
 
-                document.getElementById("profileQuote").textContent =
-                    CFG.quote || "";
-                document.getElementById("bioBox").textContent = CFG.bio || "";
-            }
+  // Preload images (non-blocking, best-effort)
+  const allImages = [avatarSrc, ...friends.map(f=>f.fetchedAvatar||''), ...(CFG.gallery||[]).slice(0,9)];
+  await Promise.race([
+    Promise.all(allImages.map(preloadImage)),
+    limit(1500)
+  ]);
 
-            // ══════════════════════════════════════════════
-            // CONSTRUIR AMIGOS (hasta 9)
-            // ══════════════════════════════════════════════
-            function buildFriends() {
-                const grid = document.getElementById("friendsGrid");
-                grid.innerHTML = "";
-                const list = (CFG.friends || []).slice(0, 9);
-                if (!list.length) {
-                    grid.innerHTML =
-                        '<div class="friends-empty">Sin amigos aún.</div>';
-                    return;
-                }
-                list.forEach((f) => {
-                    const dname = f.fetchedName || f.name || f.id;
-                    const avatarSrc = f.fetchedAvatar || f.avatar || "";
-                    const heartHTML = f.heart
-                        ? '<span class="pulse-heart">♥</span>'
-                        : "";
-                    const card = document.createElement("div");
-                    card.className = "friend-card";
-                    card.innerHTML = `
+  // Build UI
+  applyProfile(profileData, avatarSrc);
+  buildFriends();
+  buildGallery();
+
+  loaderBar.style.transition = 'width 0.3s ease';
+  loaderBar.style.width = '100%';
+  stopMessages('¡Bienvenido, Rick!');
+  await new Promise(r => setTimeout(r, 350));
+  document.getElementById('loader').classList.add('hidden');
+  document.getElementById('app').classList.add('visible');
+}
+
+// ══════════════════════════════════════════════
+// APLICAR PERFIL
+// ══════════════════════════════════════════════
+function applyProfile(data, avatarSrc) {
+  document.getElementById('avatarImg').src = avatarSrc || "";
+  const name = CFG.userName || 'RICK';
+  ['userName','rtName','left-name'].forEach(id => document.getElementById(id).textContent = name);
+  document.getElementById('userId').textContent = '#' + (CFG.userId || '');
+
+  const raw = (data && data.online) ? data.online.toLowerCase() : '';
+  const dot  = document.getElementById('statusDot');
+  const span = document.getElementById('userStatus');
+  if (raw === 'online' || raw === 'available') {
+    span.textContent='En línea'; dot.style.background='#22c55e'; dot.style.boxShadow='0 0 6px #22c55e';
+  } else {
+    span.textContent='Desconectado'; dot.style.background='#64748b'; dot.style.boxShadow='none';
+  }
+
+  document.getElementById('profileQuote').textContent = CFG.quote || '';
+}
+
+// ══════════════════════════════════════════════
+// CONSTRUIR AMIGOS (hasta 9)
+// ══════════════════════════════════════════════
+function buildFriends() {
+  const grid = document.getElementById('friendsGrid');
+  grid.innerHTML = '';
+  const list = (CFG.friends || []).slice(0, 9);
+  if (!list.length) { grid.innerHTML='<div class="friends-empty">Sin amigos aún.</div>'; return; }
+  list.forEach(f => {
+    const dname     = f.fetchedName || f.name || f.id;
+    const avatarSrc = f.fetchedAvatar || f.avatar || '';
+    const heartHTML = f.heart ? '<span class="pulse-heart">♥</span>' : '';
+    const card = document.createElement('div'); card.className='friend-card';
+    card.innerHTML = `
       <div class="friend-avatar">
-        ${
-            avatarSrc
-                ? `<img src="${avatarSrc}" alt="${dname}" loading="lazy" onerror="this.parentElement.innerHTML='<span class=\\'no-avatar\\'>👤</span>'">`
-                : '<span class="no-avatar">👤</span>'
-        }
+        ${avatarSrc
+          ? `<img src="${avatarSrc}" alt="${dname}" loading="lazy" onerror="this.parentElement.innerHTML='<span class=\\'no-avatar\\'>👤</span>'">`
+          : '<span class="no-avatar">👤</span>'}
       </div>
       <div>
         <div class="friend-name">${dname}${heartHTML}</div>
         <div class="friend-id">${f.id}</div>
       </div>`;
-                    card.onclick = () =>
-                        window.open(
-                            `https://xat.com/web_gear/chat/id.php?id=${f.id}`,
-                            "_blank",
-                        );
-                    grid.appendChild(card);
-                });
-            }
+    card.onclick = () => window.open(`https://xat.com/web_gear/chat/id.php?id=${f.id}`, '_blank');
+    grid.appendChild(card);
+  });
+}
 
-            // ══════════════════════════════════════════════
-            // CONSTRUIR GALERÍA (hasta 9)
-            // ══════════════════════════════════════════════
-            function buildGallery() {
-                const grid = document.getElementById("galleryGrid");
-                grid.innerHTML = "";
-                (CFG.gallery || []).slice(0, 9).forEach((src) => {
-                    const item = document.createElement("div");
-                    item.className = "gallery-item";
-                    item.innerHTML = `<img src="${src}" alt="" loading="lazy">`;
-                    item.onclick = () => openLightbox(src);
-                    grid.appendChild(item);
-                });
-            }
+// ══════════════════════════════════════════════
+// CONSTRUIR GALERÍA (hasta 9)
+// ══════════════════════════════════════════════
+function buildGallery() {
+  const grid = document.getElementById('galleryGrid');
+  grid.innerHTML = '';
+  (CFG.gallery || []).slice(0, 9).forEach(src => {
+    const item = document.createElement('div'); item.className='gallery-item';
+    item.innerHTML = `<img src="${src}" alt="" loading="lazy">`;
+    item.onclick   = () => openLightbox(src);
+    grid.appendChild(item);
+  });
+}
 
-            // ══════════════════════════════════════════════
-            // TABS
-            // ══════════════════════════════════════════════
-            document.querySelectorAll(".tab-btn").forEach((btn) => {
-                btn.addEventListener("click", () => {
-                    document
-                        .querySelectorAll(".tab-btn")
-                        .forEach((b) => b.classList.remove("active"));
-                    document
-                        .querySelectorAll(".tab-content")
-                        .forEach((t) => t.classList.remove("active"));
-                    btn.classList.add("active");
-                    document
-                        .getElementById("tab-" + btn.dataset.tab)
-                        .classList.add("active");
-                    const leftName = document.getElementById("left-name");
-                    const userInfo = document.querySelector(".user-info");
-                    if (btn.dataset.tab !== "profile") {
-                        leftName.style.display = "block";
-                        userInfo.style.display = "none";
-                    } else {
-                        leftName.style.display = "none";
-                        userInfo.style.display = "block";
-                    }
-                });
-            });
+// ══════════════════════════════════════════════
+// TABS
+// ══════════════════════════════════════════════
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('tab-'+btn.dataset.tab).classList.add('active');
+    const leftName = document.getElementById('left-name');
+    const userInfo = document.querySelector('.user-info');
+    if (btn.dataset.tab !== 'profile') { leftName.style.display='block'; userInfo.style.display='none'; }
+    else { leftName.style.display='none'; userInfo.style.display='block'; }
+  });
+});
 
-            // ══════════════════════════════════════════════
-            // LIGHTBOX
-            // ══════════════════════════════════════════════
-            function openLightbox(src) {
-                document.getElementById("lightbox-img").src = src;
-                document.getElementById("lightbox").classList.add("open");
-            }
-            document.getElementById("lightbox-close").onclick = () =>
-                document.getElementById("lightbox").classList.remove("open");
-            document.getElementById("lightbox").onclick = (e) => {
-                if (e.target === e.currentTarget)
-                    e.currentTarget.classList.remove("open");
-            };
+// ══════════════════════════════════════════════
+// LIGHTBOX
+// ══════════════════════════════════════════════
+function openLightbox(src) { document.getElementById('lightbox-img').src=src; document.getElementById('lightbox').classList.add('open'); }
+document.getElementById('lightbox-close').onclick = () => document.getElementById('lightbox').classList.remove('open');
+document.getElementById('lightbox').onclick = e => { if(e.target===e.currentTarget) e.currentTarget.classList.remove('open'); };
 
-            // ══════════════════════════════════════════════
-            // PLAYER + VISUALIZADOR
-            // ══════════════════════════════════════════════
-            const audio = document.getElementById("audio");
-            const playBtn = document.getElementById("playBtn");
-            const playerBar = document.getElementById("playerBar");
-            const beatCanvas = document.getElementById("beatCanvas");
-            const bctx = beatCanvas.getContext("2d");
-            let isPlaying = false,
-                audioCtx = null,
-                analyser = null,
-                source = null,
-                animFrame = null,
-                fakeTick = 0;
+// ══════════════════════════════════════════════
+// PLAYER + VISUALIZADOR
+// ══════════════════════════════════════════════
+const audio      = document.getElementById('audio');
+const playBtn    = document.getElementById('playBtn');
+const playerBar  = document.getElementById('playerBar');
+const beatCanvas = document.getElementById('beatCanvas');
+const bctx       = beatCanvas.getContext('2d');
+let isPlaying=false, audioCtx=null, analyser=null, source=null, animFrame=null, fakeTick=0;
 
-            function initAudioCtx() {
-                if (audioCtx) return;
-                audioCtx = new (
-                    window.AudioContext || window.webkitAudioContext
-                )();
-                analyser = audioCtx.createAnalyser();
-                analyser.fftSize = 128;
-                source = audioCtx.createMediaElementSource(audio);
-                source.connect(analyser);
-                analyser.connect(audioCtx.destination);
-            }
+function initAudioCtx() {
+  if (audioCtx) return;
+  audioCtx = new (window.AudioContext||window.webkitAudioContext)();
+  analyser  = audioCtx.createAnalyser(); analyser.fftSize=128;
+  source    = audioCtx.createMediaElementSource(audio);
+  source.connect(analyser); analyser.connect(audioCtx.destination);
+}
 
-            async function togglePlay() {
-                const songs = CFG.songs || [];
-                const hasSrc = songs[songIdx] && songs[songIdx].src;
+async function togglePlay() {
+  const songs  = CFG.songs || [];
+  const hasSrc = songs[songIdx] && songs[songIdx].src;
 
-                if (!hasSrc) {
-                    isPlaying = !isPlaying;
-                    playBtn.innerHTML = isPlaying
-                        ? "&#9646;&#9646;"
-                        : "&#9654;";
-                    beatCanvas.classList.toggle("active", isPlaying);
-                    if (isPlaying) drawFakeBeat();
-                    else cancelAnimationFrame(animFrame);
-                    return;
-                }
+  if (!hasSrc) {
+    isPlaying = !isPlaying;
+    playBtn.innerHTML = isPlaying ? '&#9646;&#9646;' : '&#9654;';
+    beatCanvas.classList.toggle('active', isPlaying);
+    if (isPlaying) drawFakeBeat(); else cancelAnimationFrame(animFrame);
+    return;
+  }
 
-                initAudioCtx();
-                if (audioCtx.state === "suspended") await audioCtx.resume();
-                if (isPlaying) {
-                    audio.pause();
-                    isPlaying = false;
-                    playBtn.innerHTML = "&#9654;";
-                    beatCanvas.classList.remove("active");
-                    cancelAnimationFrame(animFrame);
-                } else {
-                    try {
-                        await audio.play();
-                    } catch (e) {
-                        console.warn(
-                            "Audio CORS — pon song.mp3 en la misma carpeta",
-                        );
-                    }
-                    isPlaying = true;
-                    playBtn.innerHTML = "&#9646;&#9646;";
-                    beatCanvas.classList.add("active");
-                    drawBeat();
-                }
-            }
+  initAudioCtx();
+  if (audioCtx.state==='suspended') await audioCtx.resume();
+  if (isPlaying) {
+    audio.pause(); isPlaying=false; playBtn.innerHTML='&#9654;';
+    beatCanvas.classList.remove('active'); cancelAnimationFrame(animFrame);
+  } else {
+    try { await audio.play(); } catch(e) { console.warn('Audio CORS — pon song.mp3 en la misma carpeta'); }
+    isPlaying=true; playBtn.innerHTML='&#9646;&#9646;';
+    beatCanvas.classList.add('active'); drawBeat();
+  }
+}
 
-            function drawBeat() {
-                const data = new Uint8Array(analyser.frequencyBinCount);
-                const W = beatCanvas.width,
-                    H = beatCanvas.height,
-                    cx = W / 2,
-                    cy = H / 2,
-                    R = 72;
-                function frame() {
-                    animFrame = requestAnimationFrame(frame);
-                    analyser.getByteFrequencyData(data);
-                    bctx.clearRect(0, 0, W, H);
-                    for (let i = 0; i < 60; i++) {
-                        const angle = (i / 60) * Math.PI * 2 - Math.PI / 2,
-                            val =
-                                data[Math.floor((i * data.length) / 60)] / 255,
-                            len = 8 + val * 32,
-                            alpha = 0.4 + val * 0.6;
-                        bctx.strokeStyle = `rgba(59,130,246,${alpha})`;
-                        bctx.lineWidth = 2;
-                        bctx.shadowColor = `rgba(59,130,246,${alpha})`;
-                        bctx.shadowBlur = val * 10;
-                        bctx.beginPath();
-                        bctx.moveTo(
-                            cx + Math.cos(angle) * R,
-                            cy + Math.sin(angle) * R,
-                        );
-                        bctx.lineTo(
-                            cx + Math.cos(angle) * (R + len),
-                            cy + Math.sin(angle) * (R + len),
-                        );
-                        bctx.stroke();
-                    }
-                }
-                frame();
-            }
+function drawBeat() {
+  const data=new Uint8Array(analyser.frequencyBinCount);
+  const W=beatCanvas.width,H=beatCanvas.height,cx=W/2,cy=H/2,R=72;
+  function frame() {
+    animFrame=requestAnimationFrame(frame); analyser.getByteFrequencyData(data); bctx.clearRect(0,0,W,H);
+    for(let i=0;i<60;i++){
+      const angle=(i/60)*Math.PI*2-Math.PI/2, val=data[Math.floor(i*data.length/60)]/255, len=8+val*32, alpha=0.4+val*0.6;
+      bctx.strokeStyle=`rgba(59,130,246,${alpha})`; bctx.lineWidth=2; bctx.shadowColor=`rgba(59,130,246,${alpha})`; bctx.shadowBlur=val*10;
+      bctx.beginPath(); bctx.moveTo(cx+Math.cos(angle)*R,cy+Math.sin(angle)*R); bctx.lineTo(cx+Math.cos(angle)*(R+len),cy+Math.sin(angle)*(R+len)); bctx.stroke();
+    }
+  } frame();
+}
 
-            function drawFakeBeat() {
-                const W = beatCanvas.width,
-                    H = beatCanvas.height,
-                    cx = W / 2,
-                    cy = H / 2,
-                    R = 72;
-                function frame() {
-                    animFrame = requestAnimationFrame(frame);
-                    fakeTick += 0.07;
-                    bctx.clearRect(0, 0, W, H);
-                    for (let i = 0; i < 60; i++) {
-                        const angle = (i / 60) * Math.PI * 2 - Math.PI / 2,
-                            val =
-                                (Math.sin(fakeTick + i * 0.3) * 0.5 + 0.5) *
-                                (Math.random() * 0.3 + 0.4),
-                            len = 6 + val * 28,
-                            alpha = 0.3 + val * 0.7;
-                        bctx.strokeStyle = `rgba(59,130,246,${alpha})`;
-                        bctx.lineWidth = 2;
-                        bctx.shadowColor = `rgba(96,165,250,${alpha})`;
-                        bctx.shadowBlur = val * 12;
-                        bctx.beginPath();
-                        bctx.moveTo(
-                            cx + Math.cos(angle) * R,
-                            cy + Math.sin(angle) * R,
-                        );
-                        bctx.lineTo(
-                            cx + Math.cos(angle) * (R + len),
-                            cy + Math.sin(angle) * (R + len),
-                        );
-                        bctx.stroke();
-                    }
-                }
-                frame();
-            }
+function drawFakeBeat() {
+  const W=beatCanvas.width,H=beatCanvas.height,cx=W/2,cy=H/2,R=72;
+  function frame() {
+    animFrame=requestAnimationFrame(frame); fakeTick+=0.07; bctx.clearRect(0,0,W,H);
+    for(let i=0;i<60;i++){
+      const angle=(i/60)*Math.PI*2-Math.PI/2, val=(Math.sin(fakeTick+i*0.3)*0.5+0.5)*(Math.random()*0.3+0.4), len=6+val*28, alpha=0.3+val*0.7;
+      bctx.strokeStyle=`rgba(59,130,246,${alpha})`; bctx.lineWidth=2; bctx.shadowColor=`rgba(96,165,250,${alpha})`; bctx.shadowBlur=val*12;
+      bctx.beginPath(); bctx.moveTo(cx+Math.cos(angle)*R,cy+Math.sin(angle)*R); bctx.lineTo(cx+Math.cos(angle)*(R+len),cy+Math.sin(angle)*(R+len)); bctx.stroke();
+    }
+  } frame();
+}
 
-            function loadSong(idx) {
-                const s = (CFG.songs || [])[idx];
-                if (!s) return;
-                document.getElementById("songTitle").textContent =
-                    s.title || "–";
-                document.getElementById("songArtist").textContent =
-                    s.artist || "–";
-                if (s.src) {
-                    audio.src = s.src;
-                    audio.load();
-                }
-            }
+function loadSong(idx) {
+  const s=(CFG.songs||[])[idx]; if(!s) return;
+  document.getElementById('songTitle').textContent  = s.title  || '–';
+  document.getElementById('songArtist').textContent = s.artist || '–';
+  if(s.src){ audio.src=s.src; audio.load(); }
+}
 
-            playBtn.addEventListener("click", togglePlay);
-            document.getElementById("nextBtn").addEventListener("click", () => {
-                const n = CFG.songs || [];
-                songIdx = (songIdx + 1) % n.length;
-                loadSong(songIdx);
-                if (isPlaying) audio.play().catch(() => {});
-            });
-            document.getElementById("prevBtn").addEventListener("click", () => {
-                const n = CFG.songs || [];
-                songIdx = (songIdx - 1 + n.length) % n.length;
-                loadSong(songIdx);
-                if (isPlaying) audio.play().catch(() => {});
-            });
-            audio.addEventListener("timeupdate", () => {
-                if (audio.duration)
-                    playerBar.style.width =
-                        (audio.currentTime / audio.duration) * 100 + "%";
-            });
-            audio.addEventListener("ended", () => {
-                const n = CFG.songs || [];
-                songIdx = (songIdx + 1) % n.length;
-                loadSong(songIdx);
-                audio.play().catch(() => {});
-            });
-            document
-                .getElementById("playerBarWrap")
-                .addEventListener("click", (e) => {
-                    const rect = e.currentTarget.getBoundingClientRect();
-                    if (audio.duration)
-                        audio.currentTime =
-                            ((e.clientX - rect.left) / rect.width) *
-                            audio.duration;
-                });
+playBtn.addEventListener('click', togglePlay);
+document.getElementById('nextBtn').addEventListener('click', () => { const n=CFG.songs||[]; songIdx=(songIdx+1)%n.length; loadSong(songIdx); if(isPlaying) audio.play().catch(()=>{}); });
+document.getElementById('prevBtn').addEventListener('click', () => { const n=CFG.songs||[]; songIdx=(songIdx-1+n.length)%n.length; loadSong(songIdx); if(isPlaying) audio.play().catch(()=>{}); });
+audio.addEventListener('timeupdate', () => { if(audio.duration) playerBar.style.width=(audio.currentTime/audio.duration*100)+'%'; });
+audio.addEventListener('ended', () => { const n=CFG.songs||[]; songIdx=(songIdx+1)%n.length; loadSong(songIdx); audio.play().catch(()=>{}); });
+document.getElementById('playerBarWrap').addEventListener('click', e => { const rect=e.currentTarget.getBoundingClientRect(); if(audio.duration) audio.currentTime=((e.clientX-rect.left)/rect.width)*audio.duration; });
 
-            // ══════════════════════════════════════════════
-            // ARRANCAR
-            // ══════════════════════════════════════════════
-            boot();
-        </script>
-    </body>
+// ══════════════════════════════════════════════
+// ARRANCAR
+// ══════════════════════════════════════════════
+boot();
+</script>
+</body>
 </html>
