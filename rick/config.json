@@ -1,0 +1,24 @@
+{
+  "userId": 1997,
+  "userName": "RICK",
+  "quote": "\"El poder no se te da. Tienes que tomarlo.\"",
+  "bio": "Escribe tu bio aquí. Puedes poner lo que quieras — unas líneas sobre ti, tus intereses, o lo que sientas compartir.",
+
+  "friends": [
+    { "id": "339911",     "name": "Tikki",  "heart": false },
+    { "id": "221192",     "name": "Tiro",   "heart": false },
+    { "id": "1519385625", "name": "Matt",   "heart": false },
+    { "id": "690069",     "name": "Fons",   "heart": false },
+    { "id": "1550045880", "name": "Oriana", "heart": true  }
+  ],
+
+  "gallery": [
+    "https://xatimg.com/image/4wmVFnjZyoSz.jpg",
+    "https://xatimg.com/image/bqetYwL9qNgZ.png",
+    "https://xatimg.com/image/4wmVFnjZyoSz.jpg"
+  ],
+
+  "songs": [
+    { "title": "Have You Ever Seen The Rain", "artist": "Creedence Clearwater Revival", "src": "song.mp3" }
+  ]
+}
