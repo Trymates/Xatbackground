@@ -392,10 +392,22 @@ function buildFriends() {
   const list=(CFG.friends||[]).slice(0,9);
   if(!list.length){ grid.innerHTML='<div class="friends-empty">Sin amigos aún.</div>'; return; }
   list.forEach(f=>{
-    const dname=f.fetchedName||f.name||f.id, avSrc=f.fetchedAvatar||'', heart=f.heart?'<span class="pulse-heart">♥</span>':'';
-    const card=document.createElement('div'); card.className='friend-card';
-    card.innerHTML=`<div class="friend-avatar">${avSrc?`<img src="${avSrc}" alt="${dname}" loading="lazy" onerror="this.parentElement.innerHTML='<span class=\\'no-avatar\\'>👤</span>'">` :'<span class="no-avatar">👤</span>'}</div><div><div class="friend-name">${dname}${heart}</div><div class="friend-id">${f.id}</div></div>`;
-    card.onclick=()=>window.open(`https://xat.com/web_gear/chat/id.php?id=${f.id}`,'_blank');
+    const username = f.fetchedName || f.name || f.id;
+    const avSrc    = f.fetchedAvatar || '';
+    const heart    = f.heart ? '<span class="pulse-heart">♥</span>' : '';
+    const profileUrl = `https://xat.me/${username}`;
+    const card = document.createElement('div'); card.className='friend-card';
+    card.innerHTML=`
+      <div class="friend-avatar">
+        ${avSrc
+          ? `<img src="${avSrc}" alt="${username}" loading="lazy" onerror="this.parentElement.innerHTML='<span class=\\'no-avatar\\'>👤</span>'">`
+          : '<span class="no-avatar">👤</span>'}
+      </div>
+      <div>
+        <div class="friend-name">${username}${heart}</div>
+        <div class="friend-id" style="color:var(--blue3);cursor:pointer;" onclick="event.stopPropagation();window.open('${profileUrl}','_blank')">xat.me/${username}</div>
+      </div>`;
+    card.onclick = () => window.open(profileUrl, '_blank');
     grid.appendChild(card);
   });
 }
