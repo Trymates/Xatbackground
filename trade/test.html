@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Xat Trade</title>
+        <title>Xat Trade Chat</title>
         <style>
             :root {
                 --bg-main: #050a6b;
@@ -1417,12 +1417,12 @@
                 const options = { bgUrl: "", themeId: "1" };
                 if (!raw) return options;
 
-                const plusIndex = raw.lastIndexOf("+");
-                if (plusIndex > -1) {
-                    const maybeTheme = raw.slice(plusIndex + 1).trim();
+                const separatorIndex = raw.lastIndexOf("_");
+                if (separatorIndex > -1) {
+                    const maybeTheme = raw.slice(separatorIndex + 1).trim();
                     if (/^\d+$/.test(maybeTheme)) {
                         options.themeId = maybeTheme;
-                        options.bgUrl = raw.slice(0, plusIndex).trim();
+                        options.bgUrl = raw.slice(0, separatorIndex).trim();
                         return options;
                     }
                 }
